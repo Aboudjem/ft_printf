@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdel.c                                        :+:      :+:    :+:   */
+/*   ft_conv_c.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aboudjem <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/06 19:52:09 by aboudjem          #+#    #+#             */
-/*   Updated: 2016/10/21 12:01:08 by aboudjem         ###   ########.fr       */
+/*   Created: 2017/02/04 05:33:35 by aboudjem          #+#    #+#             */
+/*   Updated: 2017/02/04 05:33:37 by aboudjem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-void	ft_strdel(char **as)
+void	conv_c(t_conv *type)
 {
-	if (as)
-	{
-	  	free(*as);
-		*as = NULL;
-	}
+	if (type->c)
+		type->len_return = 1;
+	else if (type->c == 0)
+		type->len_return = 1;
+		// type->len_return = 0;
+	type->str = ft_strnew(1);
+	type->str[0] = type->c;
 }

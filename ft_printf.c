@@ -3,191 +3,231 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboudjem <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aboudjem <aboudjem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/11 18:57:42 by aboudjem          #+#    #+#             */
-/*   Updated: 2017/01/13 04:05:03 by aboudjem         ###   ########.fr       */
+/*   Updated: 2017/01/27 00:32:00 by aboudjem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//
-#include <stdio.h>
-#include <stdarg.h>
-#include "libft/includes/libft.h"
 #include "ft_printf.h"
-/*
-   char	*conv_int(const char *s, int i)
-   {*/
 
-
-
-char	*fill(const char *s, int i)
+void len_return(t_conv *type, t_flags flags)
 {
-	int j = 0;
-	char *str;
-	int count = 0;
-	int space = 0;
-	while (s[i] <= '9' && s[i] >= '0')
-	{
-		i++;
-		j++;
-	}
-	str = (char*)malloc(sizeof(char) * (j + 1));
-	if (!str)
-		return (0);
-	i = i - j;
-	while (count < j)
-	{
-		str[count] = s[i];
-		count++;
-		i++;
-	}	
-	count = 0;
-	if (str[0] != '0')
-		space = 1;
+type->len_return = 0;
 
-	count = ft_atoi(str);
-	ft_putnbr(count);
-	if(space == 1)
-		ft_memset(str,' ', count);
+	if (type->conv == 's')
+			conv_s(type);
+	 else if (type->conv == 'S')
+	 		conv_ws(type);
+	else if (type->conv == 'p')
+			conv_p(type);
+	else if (type->conv == 'd' || type->conv == 'i')// || type->conv == 'D')
+			conv_d(type, flags);
+	else if (type->conv == 'c')
+			conv_c(type);
+	else if (type->conv == 'C')
+			conv_wc((unsigned int)type->c, type);
+	else if (type->conv == 'x' || type->conv == 'X')
+			conv_xX(type, flags);
+	else if (type->conv == 'o' || type->conv == 'O')
+			conv_oO(type, flags);
+	else if (type->conv == 'u' || type->conv == 'U')//|| type->conv == 'D')
+			conv_u(type, flags);
+	else if (type->conv == 'D')
+	{
+		// ft_putstr("DDDDD");
+			conv_d(type, flags);
+	}
+		if (type->str)
+		{
+		ft_putstr(type->str);
+		ft_strdel(&type->str);
+		}
+		else
+		{
+			ft_putstr(type->s);
+		}
+}
+
+void	modif_length(t_flags *flags, t_conv *type)
+{
+	if (type->conv == 'c' && flags->l == 1)
+		{
+			type->conv = 'C';
+			flags->l = 0;
+		}
+	else if (type->conv == 'D')
+		{
+			type->conv = 'd';
+		flags->l = 1;
+		flags->hh = 0;
+		flags->h = 0;
+		}
+	else if (type->conv == 'U')
+	{
+		type->conv = 'u';
+		flags->l = 1;
+		flags->hh = 0;
+		flags->h = 0;
+	}
+		else if (type->conv == 'O')
+	{
+		type->conv = 'o';
+		flags->hh = 0;
+		flags->h = 0;
+		flags->l = 1;
+	}
+	else if (type->conv == 'C')
+	{
+		type->conv = 'C';
+		flags->hh = 0;
+		flags->h = 0;
+		// flags->l = 1;	
+	}
+
+}
+
+void  get_length(t_flags flags, t_conv *type)
+{
+	if (flags.h == 1)
+	type->d = (short)va_arg(type->arguments,long long int);
+   	else if (flags.hh == 1 && flags.h == 0)
+	type->d = (char)va_arg(type->arguments, long long int);
+   	else if (flags.l == 1)
+	type->d = (long)va_arg(type->arguments, long long int);
+	else if (flags.ll == 1 && flags.l == 0)
+	type->d = (long long)va_arg(type->arguments, long long);
+	else if (flags.j == 1)
+	type->d = (intmax_t)va_arg(type->arguments, long long);
+	else if (flags.z == 1)
+	type->d = (ssize_t)va_arg(type->arguments, long long);
 	else
-		ft_memset(str,'0', count);
-	printf("%s", str);
-	return(str);
+	type->d = (int)va_arg(type->arguments, long long int);
 }
 
-
-int	which_flags(const char *s, int i)
+void  get_length_u(t_flags flags, t_conv *type)
 {
-	char *flags = " %#-+";
-	int j = 0;
-	int nb = 0;
-	while (flags[j] != '\0')
-	{
-		if (s[i] != flags[j])
-			j++;
-		else
-		{
-			//ft_putchar('[');
-			ft_putchar(flags[j]);
-			//ft_putchar(']');
-			i++;
-			nb++;
-			j = 0;
-		}
-	}
-
-	//ft_putchar('\n');
-	//ft_putnbr(nb);
-	//ft_putchar('\n');
-	return (0);
+	if (flags.h == 1)
+	type->u = (unsigned short)va_arg(type->arguments,unsigned long long int);
+   	else if (flags.hh == 1)
+	type->u = (unsigned char)va_arg(type->arguments,unsigned long long int);
+   	else if (flags.l == 1)
+	type->u = (unsigned long)va_arg(type->arguments,unsigned long long int);
+	else if (flags.j == 1)
+	type->u = (uintmax_t)va_arg(type->arguments,unsigned long long);
+	else if (flags.z == 1)
+	type->u = (size_t)va_arg(type->arguments, long long);
+	else
+	type->u = (unsigned long long)va_arg(type->arguments,unsigned long long int);
 }
-t_conv	which_conv(const char *s, int i, va_list arguments)
+
+t_conv which_conv(const char *s, int i, t_conv type, t_flags flags)
 {
-	int j = 0;
+    type.count = 0;
+    while (next_conv(s, i) == 0)
+    {
+	type.count++;
 	i++;
-	char *conv;
-	t_conv type;
-	conv = "sSpdDioOuUxXcC";
-	while (conv[j] != '\0')
+    }	
+    type.conv = next_conv(s, i);
+    modif_length(&flags, &type);
+    if (type.conv == 's')
+    	type.s = (char *)va_arg(type.arguments, char *);
+	else if(type.conv == 'S') 	
+ 		type.w = (unsigned int *)va_arg(type.arguments, unsigned int*);
+ 	else if(type.conv == 'p')
+ 		type.p = (void *)va_arg(type.arguments, void *);
+	else if (type.conv == 'd' || type.conv == 'i')
+    	get_length(flags,&type);
+	else if (type.conv == 'u' )
+		get_length_u(flags, &type);
+   else if (type.conv == 'c' || type.conv == 'C')
+	type.c = (unsigned int)va_arg(type.arguments, unsigned int);
+	else
+    get_length_u(flags, &type);
+
+   	len_return(&type, flags);
+
+    return (type);
+}
+
+t_flags	which_length(const char *s, int i, t_flags flags)
+{
+	if (s[i] == 'l' && s[i + 1] == 'l')
+	    flags.ll = 1;
+	else if (s[i] == 'l' && s[i + 1] != 'l' && flags.ll == 0)
+	    flags.l = 1;
+	else if (s[i] == 'j')
+	    flags.j = 1;
+	else if (s[i] == 'z')
+	    flags.z = 1;
+	if (s[i] == 'h' && s[i + 1] == 'h')
+	    flags.hh = 1;
+	else if (s[i] == 'h' && s[i + 1] != 'h' && flags.hh == 0)
+	    flags.h = 1;
+    return (flags);	
+}
+
+t_flags which_flags(const char *s, int i, t_conv type)
+{
+    i++;
+    t_flags flags;
+    init_flags(&flags);   
+    type.conv = next_conv(s, i);
+    
+     while (next_conv(s, i) == 0 && s[i] != '\0')
+    {
+    flags.space = (s[i] == ' ') ? 1 : flags.space;
+    flags.neg = (s[i] == '-') ? 1 : flags.neg;
+    flags.plus = (s[i] == '+') ? 1 : flags.plus;
+    flags.prcnt = (s[i] == '%') ? 1 : flags.prcnt;
+    flags.hash = (s[i] == '#') ? 1 : flags.hash;
+    if (s[i] >= '0' && s[i] <= '9' && flags.pre == 0)// && flags.pre == 0)
 	{
-		if (s[i] != conv[j])
+	    get_padding(s, i, &flags);
+	    i += flags.len_pad; 
+	    // ft_putnbr(flags.champs);
+
+	}
+	if (s[i] == '.')
+	{
+	    get_precision(s, i, &flags);
+	    i += flags.len_pre; 
+	}
+		flags = which_length(s, i, flags);
+	    type.count++;
+	    i++;
+    }
+    return (flags);
+}
+
+int ft_printf(const char *format, ...)
+{
+    int i = 0;
+    int j = 0;
+    t_conv type;
+    t_flags flags;
+    va_start(type.arguments, format);
+	init(&type);
+    while (format[i] != '\0')
+    {
+		if (format[i] == '%')
 		{
-			j++;
+
+		    flags = which_flags(format, i, type);
+		    type = which_conv(format, i, type, flags);
+			j += type.len_return;
+		    i = type.count + i + 1;
 		}
 		else
 		{
-			if (conv[j] == 'd' || conv[j] == 'i')
-			{
-				type.d = va_arg(arguments, int);
-				// printf("[[INT]]");
-				//fill(s,i);
-				ft_putnbr(type.d);
-				return(type);
-			}
-			else if (conv[j] == 'o' || conv[j] == 'u' || conv[j] == 'x' || conv[j] == 'X')
-			{
-				type.o =	va_arg(arguments, unsigned int);
-				//printf("[[UNSIGNED INT]]");
-				ft_putnbr(type.o);
-				return(type);
-			}
-			else if (conv[j] == 'c')
-			{
-				type.c = va_arg(arguments, int);
-				ft_putnbr(type.c);//printf("[[CHAR]]");
-				return(type);
-			}
-			else if (conv[j] == 's')
-			{
-				type.s = va_arg(arguments, char*);
-				ft_putstr(type.s);
-				if (!type.s)
-					printf("[[CHAR*]]");
-				return(type);
-			}
-			//		else if (conv[j] == 'o' || conv[j] == 'u' || conv[j] == 'x' || conv[j] == 'X')
-			//return(1);
+		    ft_putchar(format[i]);
+		    i++;
+		    j++;
 		}
 	}
-	which_flags(s, i);
-	i++;
-	printf("Erreur");
-	return (type);
-}
-/*int	check(const char *s, int i)
-  {
-  while(s[i])
-  {
-  if(s[i] == '%')
-  {
-  which_conv(s, i);
-  return(1);
-  }
-  else
-  return(0);
-  }
-  return(0);
-  }*/
 
-int		ft_printf(const char *format, ...)
-{
-	int nb;
-	int i = 0;
-	t_conv type;
-	va_start(type.arguments, format);
-	while(format[i] != '\0')
-	{
-		if(format[i] == '%')
-		{
-			which_conv(format,i, type.arguments);
-			i++;i++;
-			// //type.s = va_arg(type.arguments, char*);
-			// printf("[%s]", type.s);
-//			ft_putstr("[here]");
-			//current = va_arg(arguments, char*);
-		}	
-		else
-		{
-			ft_putchar(format[i]);
-			i++;
-		}
-		//va_start(arguments, format);
-		//check(format);
-		// current = va_arg(arguments, char*);
-		//	printf("%d", current);
-	}
-		va_end(type.arguments);
-	return(0);
-}
-int	main()
-{
-	//printf("\n");
-	ft_printf("coucou %% d slt ca va, %s %d", 12, 12);
-	//printf("coucou [%4414.545d]", 12);
-	printf("\n\n\n");
-		//printf("coucou %d slt ca va, %s %d", 12, "yoyo", 11);
-//	printf("coucou %s ", "abc");
-
-	return(0);
+    va_end(type.arguments);
+    return (j);
 }
