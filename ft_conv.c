@@ -123,14 +123,9 @@ void	fill_zero(t_conv *type, t_flags flags)
 void join(t_conv *type, t_flags flags)
 {
 	char *s;
-// ft_putnbr(type->d);
-// ft_putendl("----");
-// ft_putnbr(type->u);
-	if ((type->d == 0 || type->u == 0) && flags.pre == 1 && (flags.negdot == 1 || flags.dot == 0)) //(flags.negdot == 1 || flags.dot == 0))//flagschamps =1
-		{
-	// ft_putstr("ici");
+
+	if ((type->d == 0 || type->u == 0) && flags.pre == 1 && (flags.negdot == 1 || flags.dot == 0))
 			type->str = handle_zero(*type, flags);
-		}
 	else if (flags.negdot == 1)
 	{
 		if (ft_strlen(type->zero) > 0)
@@ -142,7 +137,6 @@ void join(t_conv *type, t_flags flags)
 	}
 	else if (flags.neg == 1) 
 	{
-		
 		s = ft_strjoin(type->sign, type->zero);
 		s = ft_strjoin_free(&s, &type->nb, 1);
 		type->str = ft_strjoin_free(&s, &type->space, 1);
@@ -157,9 +151,4 @@ type->str = ft_strjoin_free(&s, &type->nb, 1);
  	ft_strdel(&type->zero);
  if (ft_strlen(type->space) > 0)
  	ft_strdel(&type->space);
- // if (ft_strlen(type->nb) > 0)
- // 	ft_strdel(&type->nb);
- // ft_putendl("---");
- // ft_putstr(type->str);
- // ft_putendl("---");
-}
+ }

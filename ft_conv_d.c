@@ -74,12 +74,8 @@ return(type.nb);
 
 void 	conv_d(t_conv *type, t_flags flags)
 {
-	// char *s;
 	init(type);
 	nb_sign(type, flags);
-
-// ft_putnbr(type->d);
-// ft_putstr(type->nb);
 if (flags.pre == 0)
 		fill_nodot(type, flags);
 else
@@ -89,7 +85,5 @@ else
 		fill_space(type, flags);
 	}
 	join(type, flags);
-	// ft_putstr(type->str);
 	type->len_return = (int)ft_strlen(type->str);
-// return(type.str);
 }

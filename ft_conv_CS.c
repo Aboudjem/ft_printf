@@ -15,6 +15,40 @@
 
 #include <stdio.h>
 
+int  s_pre(t_conv *type, t_flags flags)
+{
+  int i;
+  i = 0;
+  // int dot = flags.dot;
+   while (i + len_c(type->w[i]) <= flags.dot)
+      i += len_c(type->w[i]);
+
+return(i);
+}
+
+void  s_fill_nodot(t_conv *type, t_flags flags)
+{
+  if (flags.pre == 0)
+  {
+  if (flags.zero == 0 && flags.pad > type->len_d)
+      type->space = ft_strset(' ', flags.pad - (int)ft_strlen(type->str));
+  else if (flags.zero == 1 && flags.pad > type->len_d)
+      type->zero = ft_strset('0', flags.pad - (int)ft_strlen(type->str));
+  }
+}
+
+
+void  s_fill_space(t_conv *type, t_flags flags)
+{
+ // if (flags.dot > flags.pad && flags.pad > (int)ft_strlen(type->str))
+ //  type->len_space = flags.pad - (int)ft_strlen(type->str);
+  // else if (flags.pad > flags.dot && flags.pad > flags.pad > (int)ft_strlen(type->str))
+if (flags.pad > (int)ft_strlen(type->str))
+  type->len_space = flags.pad - (int)ft_strlen(type->str);
+else
+  type->len_space = 0;
+type->space = ft_strset(' ', type->len_space);
+} 
 
 int len_c(unsigned int c)
 {
@@ -47,10 +81,10 @@ void  conv_wc(unsigned int c, t_conv *type)
   }
   else if (c < 1114112)
   {
-   	type->str[0] = (240 | (c >> 18));
-    type->str[1] = (128 | ((c >> 12) & 63));
-    type->str[2] = (128 | ((c >> 6) & 63));
-    type->str[3] = (128 | (c & 63));
+  type->str[0] = (240 | (c >> 18));
+  type->str[1] = (128 | ((c >> 12) & 63));
+  type->str[2] = (128 | ((c >> 6) & 63));
+  type->str[3] = (128 | (c & 63));
   }
   if (type->c == 0 && type->c)
     type->len_return = 1;
@@ -60,11 +94,13 @@ void  conv_wc(unsigned int c, t_conv *type)
     type->len_return = len_c(c);//(int)ft_strlen(type->str);
 }
 
-void  conv_ws(t_conv *type)
+
+void  conv_ws(t_conv *type, t_flags flags)
 {
 	int i;
 	i = 0;
   char *tmp;
+  tmp = ft_strdup("");
   type->len_return = 0;
 	if (!type->w)
   {
@@ -75,16 +111,39 @@ void  conv_ws(t_conv *type)
 	{
 	 while (type->w[i] != '\0')
     {
-      // ft_putstr(":AA:");
-     conv_wc((unsigned int)type->w[i], type);
-      tmp = ft_strdup(type->str);
-      type->str = ft_strjoin_free(&type->str, &tmp, 3);
-      // ft_putstr(type->str);
-      i++;
+       conv_wc(type->w[i], type);
+        tmp = ft_strjoin_free(&tmp, &type->str, 3);
+        i++;
     }
- //      // conv_wc(type->w[i], type);
- //      // type->str = ft_strjoin_free(&type->str, &wc, 3);
- //      i++;
-  	// }
-	}
+    i = 0;
+
+type->str = ft_strdup(tmp);
+// s_pre(type, flags);
+s_join(type, flags);
+
+type->len_return = (int)ft_strlen(type->str);     // ft_putstr(tmp);  // type->str = ft_strdup("");
+  }
 }
+
+void s_join(t_conv *type, t_flags flags)
+{
+  int i;
+if (type->conv == 'S')
+  i = s_pre(type, flags);
+else
+  i = flags.dot;
+
+if (flags.pre == 0)
+  s_fill_nodot(type, flags);
+else if (flags.pre == 1)
+{
+  if (flags.dot < (int)ft_strlen(type->str))
+    type->str = ft_strsub(type->str, 0, i);
+    s_fill_space(type, flags);
+    type->str = ft_strjoin(type->space, type->str);
+}
+ if (ft_strlen(type->zero) > 0)
+  ft_strdel(&type->zero);
+ if (ft_strlen(type->space) > 0)
+  ft_strdel(&type->space);
+ }

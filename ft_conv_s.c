@@ -12,13 +12,18 @@
 
 #include "ft_printf.h"
 
-void	conv_s(t_conv *type)
+void	conv_s(t_conv *type, t_flags flags)
 {
 	if (!type->s)
 	{
 		type->len_return = 6;
-		type->s = ft_strdup("(null)");
+		type->str = ft_strdup("(null)");
 	}
 	else
-		type->len_return = ft_strlen(type->s);
+		{
+			type->str = ft_strdup(type->s);
+			s_join(type, flags);
+			type->len_return = ft_strlen(type->str);
+		}
 }
+

@@ -17,9 +17,9 @@ void len_return(t_conv *type, t_flags flags)
 type->len_return = 0;
 
 	if (type->conv == 's')
-			conv_s(type);
+			conv_s(type, flags);
 	 else if (type->conv == 'S')
-	 		conv_ws(type);
+	 		conv_ws(type, flags);
 	else if (type->conv == 'p')
 			conv_p(type);
 	else if (type->conv == 'd' || type->conv == 'i')// || type->conv == 'D')
@@ -36,7 +36,6 @@ type->len_return = 0;
 			conv_u(type, flags);
 	else if (type->conv == 'D')
 	{
-		// ft_putstr("DDDDD");
 			conv_d(type, flags);
 	}
 		if (type->str)
@@ -135,7 +134,7 @@ t_conv which_conv(const char *s, int i, t_conv type, t_flags flags)
     if (type.conv == 's')
     	type.s = (char *)va_arg(type.arguments, char *);
 	else if(type.conv == 'S') 	
- 		type.w = (unsigned int *)va_arg(type.arguments, unsigned int*);
+ 		type.w = (wchar_t *)va_arg(type.arguments, wchar_t*);
  	else if(type.conv == 'p')
  		type.p = (void *)va_arg(type.arguments, void *);
 	else if (type.conv == 'd' || type.conv == 'i')

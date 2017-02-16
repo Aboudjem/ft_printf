@@ -21,7 +21,7 @@ typedef struct s_type
     unsigned long long int u;
     long long d;
     unsigned int c;
-    unsigned int *w;
+    wchar_t *w;
     va_list arguments;
     char *s;
     void *p;
@@ -112,8 +112,11 @@ void    conv_p(t_conv *type);
 
 int len_c(unsigned int c);
 void    conv_wc(unsigned int c, t_conv *type);
-void    conv_ws(t_conv *type);
-
+void    conv_ws(t_conv *type, t_flags flags);
+void    s_join(t_conv *type, t_flags flags);
+void  s_fill_zero(t_conv *type, t_flags flags);
+void  s_fill_space(t_conv *type, t_flags flags);
+void  s_fill_nodot(t_conv *type, t_flags flags);
 
 /** Ft_utils.c **/
 
@@ -127,7 +130,7 @@ void    ft_free(t_conv *type);
 
 /** Ft_conv_s.c **/
 
-void   conv_s(t_conv *type);
+void   conv_s(t_conv *type, t_flags flags);
 // int len_s(t_conv type);
 
 /** Ft_conv.c **/
