@@ -36,7 +36,7 @@ void	ft_hexa_p(t_conv *type)
 	}
 }
 
-void	conv_p(t_conv *type)
+void	conv_p(t_conv *type, t_flags flags)
 {
 	ft_hexa_p(type);
 	char *x = ft_strdup("0x");
@@ -46,5 +46,24 @@ void	conv_p(t_conv *type)
 	else
 	type->str = ft_strjoin(x, "0");
 	ft_strdel(&x);
+	// ft_putstr(type->str);
+	if (flags.pre == 1)
+		p_join(type, flags);
 type->len_return = (int)ft_strlen(type->str);
 }
+
+void p_join(t_conv *type, t_flags flags)
+{
+
+if (flags.pre == 0)
+  s_fill_nodot(type, flags);
+else if (flags.pre == 1)
+{
+    s_fill_space(type, flags);
+    type->str = ft_strjoin(type->space, type->str);
+}
+ if (ft_strlen(type->zero) > 0)
+  ft_strdel(&type->zero);
+ if (ft_strlen(type->space) > 0)
+  ft_strdel(&type->space);
+ }

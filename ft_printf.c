@@ -21,7 +21,7 @@ type->len_return = 0;
 	 else if (type->conv == 'S')
 	 		conv_ws(type, flags);
 	else if (type->conv == 'p')
-			conv_p(type);
+			conv_p(type, flags);
 	else if (type->conv == 'd' || type->conv == 'i')// || type->conv == 'D')
 			conv_d(type, flags);
 	else if (type->conv == 'c')
@@ -35,9 +35,9 @@ type->len_return = 0;
 	else if (type->conv == 'u' || type->conv == 'U')//|| type->conv == 'D')
 			conv_u(type, flags);
 	else if (type->conv == 'D')
-	{
 			conv_d(type, flags);
-	}
+	// else if (type->conv == '%')
+		// conv_percent(type);
 		if (type->str)
 		{
 		ft_putstr(type->str);
@@ -123,14 +123,15 @@ void  get_length_u(t_flags flags, t_conv *type)
 
 t_conv which_conv(const char *s, int i, t_conv type, t_flags flags)
 {
-    type.count = 0;
+type.count = 0;
     while (next_conv(s, i) == 0)
     {
 	type.count++;
 	i++;
-    }	
+    }
     type.conv = next_conv(s, i);
     modif_length(&flags, &type);
+    
     if (type.conv == 's')
     	type.s = (char *)va_arg(type.arguments, char *);
 	else if(type.conv == 'S') 	
@@ -141,13 +142,12 @@ t_conv which_conv(const char *s, int i, t_conv type, t_flags flags)
     	get_length(flags,&type);
 	else if (type.conv == 'u' )
 		get_length_u(flags, &type);
-   else if (type.conv == 'c' || type.conv == 'C')
+	else if (type.conv == 'c' || type.conv == 'C')
 	type.c = (unsigned int)va_arg(type.arguments, unsigned int);
-	else
+		else
     get_length_u(flags, &type);
-
+	// }
    	len_return(&type, flags);
-
     return (type);
 }
 
@@ -170,24 +170,21 @@ t_flags	which_length(const char *s, int i, t_flags flags)
 
 t_flags which_flags(const char *s, int i, t_conv type)
 {
+	t_flags flags;
+    init_flags(&flags);  
+
     i++;
-    t_flags flags;
-    init_flags(&flags);   
-    type.conv = next_conv(s, i);
-    
+ 
      while (next_conv(s, i) == 0 && s[i] != '\0')
     {
     flags.space = (s[i] == ' ') ? 1 : flags.space;
     flags.neg = (s[i] == '-') ? 1 : flags.neg;
     flags.plus = (s[i] == '+') ? 1 : flags.plus;
-    flags.prcnt = (s[i] == '%') ? 1 : flags.prcnt;
     flags.hash = (s[i] == '#') ? 1 : flags.hash;
     if (s[i] >= '0' && s[i] <= '9' && flags.pre == 0)// && flags.pre == 0)
 	{
 	    get_padding(s, i, &flags);
 	    i += flags.len_pad; 
-	    // ft_putnbr(flags.champs);
-
 	}
 	if (s[i] == '.')
 	{
@@ -211,9 +208,8 @@ int ft_printf(const char *format, ...)
 	init(&type);
     while (format[i] != '\0')
     {
-		if (format[i] == '%')
+		if (format[i] == '%' && format[i + 1] != '%')
 		{
-
 		    flags = which_flags(format, i, type);
 		    type = which_conv(format, i, type, flags);
 			j += type.len_return;

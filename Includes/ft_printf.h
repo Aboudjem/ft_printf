@@ -105,8 +105,8 @@ void    nb_sign_u(t_conv *type, t_flags flags);
 void    conv_u(t_conv *type, t_flags flags);
 
 /** Ft_conv_p.c **/
-void    conv_p(t_conv *type);
-
+void    conv_p(t_conv *type, t_flags flags);
+void    p_join(t_conv *type, t_flags flags);
 
 /** Ft_conv_CS.c **/
 
@@ -127,6 +127,10 @@ void display(t_flags flags);
 void init_flags(t_flags *flags);
 void    ft_stroupper(char *s);
 void    ft_free(t_conv *type);
+
+/** Ft_conv_percent.c **/
+
+void    conv_percent(t_conv *type);
 
 /** Ft_conv_s.c **/
 

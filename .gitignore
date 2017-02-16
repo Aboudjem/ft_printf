@@ -9,4 +9,7 @@ ehthumbs.db
 Thumbs.db
 a.out
 a.out.DSYM
-
+libft/*.o
+*.o
+libft/.DS_Store
+libft/.DS_Store?
