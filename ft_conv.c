@@ -70,6 +70,8 @@ void	init(t_conv *type)
 	type->space = "";
 	type->zero = "";
 	type->str = NULL;
+	type->count = 0;
+	type->len_return = 0;
 }
 
 void	fill_nodot(t_conv *type, t_flags flags)

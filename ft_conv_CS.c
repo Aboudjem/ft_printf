@@ -22,7 +22,6 @@ int  s_pre(t_conv *type, t_flags flags)
   // int dot = flags.dot;
    while (i + len_c(type->w[i]) <= flags.dot)
       i += len_c(type->w[i]);
-
 return(i);
 }
 
@@ -30,9 +29,9 @@ void  s_fill_nodot(t_conv *type, t_flags flags)
 {
   if (flags.pre == 0)
   {
-  if (flags.zero == 0 && flags.pad > type->len_d)
+  if (flags.zero == 0 && flags.pad > (int)ft_strlen(type->str))
       type->space = ft_strset(' ', flags.pad - (int)ft_strlen(type->str));
-  else if (flags.zero == 1 && flags.pad > type->len_d)
+  else if (flags.zero == 1 && flags.pad > (int)ft_strlen(type->str))
       type->zero = ft_strset('0', flags.pad - (int)ft_strlen(type->str));
   }
 }
@@ -52,7 +51,7 @@ type->space = ft_strset(' ', type->len_space);
 
 int len_c(unsigned int c)
 {
-  if (c < 128)
+if (c < 128)
     return(1);
   else if (c < 2048)
     return(2);

@@ -14,7 +14,7 @@
 
 void len_return(t_conv *type, t_flags flags)
 {
-type->len_return = 0;
+	type->len_return = 0;
 
 	if (type->conv == 's')
 			conv_s(type, flags);
@@ -36,17 +36,13 @@ type->len_return = 0;
 			conv_u(type, flags);
 	else if (type->conv == 'D')
 			conv_d(type, flags);
-	// else if (type->conv == '%')
-		// conv_percent(type);
 		if (type->str)
 		{
 		ft_putstr(type->str);
 		ft_strdel(&type->str);
 		}
 		else
-		{
-			ft_putstr(type->s);
-		}
+		ft_putstr(type->s);
 }
 
 void	modif_length(t_flags *flags, t_conv *type)
@@ -124,12 +120,22 @@ void  get_length_u(t_flags flags, t_conv *type)
 t_conv which_conv(const char *s, int i, t_conv type, t_flags flags)
 {
 type.count = 0;
-    while (next_conv(s, i) == 0)
+    while (next_conv(s, i) == 0 && s[i + 1])
     {
 	type.count++;
 	i++;
     }
     type.conv = next_conv(s, i);
+    // ft_putstr("lol");
+    if (type.conv == 0)
+    {
+    	no_conv(s, i,type, flags);
+    	// printf("[%d][%d]", type.len_return, type.count);
+    	type.len_return = type.count;	
+    	return(type);
+    }
+    else
+    {
     modif_length(&flags, &type);
     
     if (type.conv == 's')
@@ -146,8 +152,9 @@ type.count = 0;
 	type.c = (unsigned int)va_arg(type.arguments, unsigned int);
 		else
     get_length_u(flags, &type);
-	// }
+	
    	len_return(&type, flags);
+    }
     return (type);
 }
 
@@ -172,9 +179,8 @@ t_flags which_flags(const char *s, int i, t_conv type)
 {
 	t_flags flags;
     init_flags(&flags);  
-
+    type.count = 0;
     i++;
- 
      while (next_conv(s, i) == 0 && s[i] != '\0')
     {
     flags.space = (s[i] == ' ') ? 1 : flags.space;
@@ -195,6 +201,7 @@ t_flags which_flags(const char *s, int i, t_conv type)
 	    type.count++;
 	    i++;
     }
+    // printf("[%d][%d]", type.count, i);
     return (flags);
 }
 
@@ -208,12 +215,27 @@ int ft_printf(const char *format, ...)
 	init(&type);
     while (format[i] != '\0')
     {
-		if (format[i] == '%' && format[i + 1] != '%')
+		if (format[i] == '%' && format[i + 1] && format[i + 1] != '%')
 		{
 		    flags = which_flags(format, i, type);
 		    type = which_conv(format, i, type, flags);
 			j += type.len_return;
+    	// printf("[%d][%d]", type.len_return, type.count);
+			if (type.conv == 0)
+				i += type.count;
+			// else if (format[i] == '%' && format[i + 1] && format[i + 1] == ' ' && format[i + 2] && format[i + 2] == '%')
+			// 	ft_putstr("lol");
+			else
 		    i = type.count + i + 1;
+    	// printf("[%d][%d]", type.len_return, type.count);
+
+		}
+		else if (format[i] == '%' && format[i + 1] && format[i + 1] == '%')
+		{
+			i++;
+			ft_putchar('%');
+			i++;
+			j++;
 		}
 		else
 		{

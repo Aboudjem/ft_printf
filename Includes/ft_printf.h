@@ -65,6 +65,10 @@ typedef struct s_flags
     int len_pad;
 } t_flags;
 
+
+t_conv    no_conv(const char *s, int i, t_conv type, t_flags flags);
+int     count_char(const char *s, int i);
+void  no_fill_nodot(t_conv *type, t_flags flags);
 /** Ft_printf.c **/
 
 int ft_printf(const char *format, ...);
