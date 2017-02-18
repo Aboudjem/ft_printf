@@ -12,12 +12,9 @@
 
 #include "ft_printf.h"
 
-
-#include <stdio.h>
-
-void	conv_percent(t_conv *type)
+void	conv_percent(t_conv *type, t_flags flags)
 {
-	// (void)flags;
-	type->str = ft_strdup("abc");
-	type->len_return = 1;
+type->str = ft_strdup("%");
+noconv_join(type, flags);
+type->len_return = 1;
 }

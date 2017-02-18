@@ -66,9 +66,11 @@ typedef struct s_flags
 } t_flags;
 
 
-t_conv    no_conv(const char *s, int i, t_conv type, t_flags flags);
+void    no_conv(const char *s, int i, t_conv *type, t_flags flags);
 int     count_char(const char *s, int i);
 void  no_fill_nodot(t_conv *type, t_flags flags);
+void noconv_join(t_conv *type, t_flags flags);
+int is_flag(const char *s, int i);
 /** Ft_printf.c **/
 
 int ft_printf(const char *format, ...);
@@ -134,7 +136,7 @@ void    ft_free(t_conv *type);
 
 /** Ft_conv_percent.c **/
 
-void    conv_percent(t_conv *type);
+void    conv_percent(t_conv *type, t_flags flags);
 
 /** Ft_conv_s.c **/
 

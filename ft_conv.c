@@ -47,18 +47,43 @@ void	get_precision(const char *s, int i, t_flags *flags)
 	flags->len_pre = j + flags->pre + flags->negdot;
 }
 
-char next_conv(const char *s, int i)
+int 	is_flag(const char *s, int i)
 {
     int j = 0;
-    char *conv = "sSpdDioOuUxXcC";
+    char *conv = " -#+.0123456789lhjz";
     while (conv[j] != '\0')
     {
 	if (s[i] != conv[j])
 	    j++;
 	else
-	    return (conv[j]);
+	    return (1);
     }
     return (0);
+}
+
+
+// printf("s[i]=%c conv[j]=%c\n", s[i], conv[j]);
+  //   	if (s[i] == conv[j])
+	 //   		return (conv[j]);
+	 //   	if (is_flag(s, i) == 0)
+	 //   	{
+	 //   		printf("LOL");
+		//     return 0;
+	 //   	}
+		// j++;
+char next_conv(const char *s, int i)
+{
+    int j = 0;
+    char *conv = "sSpdDioOuUxXcC%";
+    while (conv[j] != '\0')
+    {	
+    	if (s[i] == conv[j])
+    		return(conv[j]);
+    	j++;
+	}
+	if (is_flag(s, i) == 0)
+		return (1);
+	return(0);
 } 
 
 void	init(t_conv *type)
@@ -70,7 +95,7 @@ void	init(t_conv *type)
 	type->space = "";
 	type->zero = "";
 	type->str = NULL;
-	type->count = 0;
+	// type->count = 0;
 	type->len_return = 0;
 }
 

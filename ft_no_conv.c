@@ -23,74 +23,39 @@ void noconv_join(t_conv *type, t_flags flags)
 
     type->str = ft_strjoin(type->space, type->str);
     type->str = ft_strjoin(type->zero, type->str);
-    ft_putstr(type->space);
- if (ft_strlen(type->zero) > 0)
-  ft_strdel(&type->zero);
- if (ft_strlen(type->space) > 0)
-  ft_strdel(&type->space);
+
+ // if (ft_strlen(type->zero) > 0 || type->zero == NULL)
+ //  ft_strdel(&type->zero);
+ // if (ft_strlen(type->space) > 0 || type->space == NULL)
+ //  ft_strdel(&type->space);
 }
 
-char skip_all(const char *s, int i)
-{
-    int j = 0;
-    char *conv = " -#+.0123456789sSpdDioOuUxXcClhjz";
-    while (conv[j] != '\0')
-    {
-	if (s[i] != conv[j])
-	    j++;
-	else
-	    return (conv[j]);
-    }
-    return (0);
-} 
 
-t_conv	no_conv(const char *s, int i, t_conv type, t_flags flags)
+void	no_conv(const char *s, int i, t_conv *type, t_flags flags)
 {
-	type.str = ft_strdup("");
-	int j = 0;
+	type->str = ft_strdup("");
 	int k = 0;
-	i -= type.count;
-if(s[i + 1] && s[i] == '%')
-	i++;
-while(skip_all(s, i) != 0 && s[i] != '%')
-	i++;
+// printf("\n\n<[-%d-]>\n\n", i);
+if (!s[i + 1] && s[i] == '%')
+	ft_putstr("LAWW");
+	
 
-j = i;
-while(s[j] != '\0' && s[j] != '%')
-	{
-		j++;
+
+while(is_flag(s, i) == 1 && s[i] != '%')
+	i++;
+// printf("\n\n[-%d-]\n\n", i);
+
+k = i;
+while(s[k] != '\0' && s[k + 1] != '%' && s[k])
 		k++;
-	}
-	type.str = ft_strsub(s, i, k);
-		noconv_join(&type, flags);
-	if (s[j] == '%')
-	{
-		type.count = j - 1;
-		// ft_putnbr(type.count);
-		// ft_putstr("ici");
+	// if (s[k + 1] == '%')
+	// 	ft_putstr("LA");
+	type->str = ft_strsub(s, i, (k+1)-i);
+		noconv_join(type, flags);
+// printf("\n\n/%s/\n\n", type->str);
 
-	}
-	else
-		type.count = j;
-	ft_putstr(type.str);
-
-
-
-	return(type);
+// type->str = ft_strdup("");
+type->count = k;
+	// if (s[k] == '%')
+	// 	type->count = k - 2;
 }
-
-
-
-// int		count_char(const char *s, int i)
-// {
-// 	// char *str;
-// 	(void)s;
-// 	// i = i + type.count;
-// 	ft_putnbr(i);
-// 	// while()
-// 	// {
-// 	// 	ft_putchar(s[i]);
-// 	// 	i++;
-// 	// }
-// 	return(i);
-// }
