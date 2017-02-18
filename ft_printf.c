@@ -36,6 +36,8 @@ void len_return(t_conv *type, t_flags flags)
 			conv_u(type, flags);
 	else if (type->conv == 'D')
 			conv_d(type, flags);
+	// else if (type->conv == '%')
+			// conv_percent(type, flags);
 if (type->str)
 	{
 	ft_putstr(type->str);
@@ -120,25 +122,29 @@ void  get_length_u(t_flags flags, t_conv *type)
 t_conv which_conv(const char *s, int i, t_conv type, t_flags flags)
 {
 type.count = 0;
+// type.len_return = 0;
+
 if (s[i] && s[i + 1])
 {
 	i++;
 	type.count++;
 }
-// ft_putstr("\n---->[");
-// ft_putchar(s[i]);
-// ft_putnbr(i);
     while (next_conv(s, i) == 0 && s[i + 1])
     {	
+    	// ft_putchar(s[i]);
 		type.count++;
 		i++;
     }
     if (next_conv(s, i) == 1)
+    {
+
+    	// ft_putstr("oups");
     	type.count--;
+    }
     type.conv = next_conv(s, i);
     // ft_putchar(type.conv);
     // printf("<[%c]>\n\n", type.conv);
-    if (ft_isalpha(type.conv) == 1)
+    if ((int)ft_strlen(s) > 1 && (ft_isalpha(type.conv) == 1 || type.conv == '%'))
     {
     modif_length(&flags, &type);
     
@@ -163,9 +169,10 @@ if (s[i] && s[i + 1])
     }
     else
     {
+    	// printf("[%c]", type.conv);
     	no_conv(s, i, &type, flags);
     	type.len_return = type.count;
-    	len_return(&type, flags);
+    	// len_return(&type, flags);
     }
     return (type);
 }
@@ -236,16 +243,18 @@ int ft_printf(const char *format, ...)
 		    type = which_conv(format, i, type, flags);
 			j += type.len_return;
 		    i = type.count + i + 1;
+
 		// printf("<[%c][%d]>]\n", format[i], i);
     	// printf("[%d][%d]", type.len_return, type.count);
     	// printf("[%d][%d][%d]", len, type.count, i);
 		}
 		else
 		{
-		    // ft_putstr("LA");
 		    ft_putchar(format[i]);
 		    i++;
 		    j++;
+		    // ft_putnbr(j);
+		    // ft_putstr("LA");
 		}
 	}
 // ft_putnbr(j)

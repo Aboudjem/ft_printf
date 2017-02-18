@@ -35,27 +35,26 @@ void	no_conv(const char *s, int i, t_conv *type, t_flags flags)
 {
 	type->str = ft_strdup("");
 	int k = 0;
-// printf("\n\n<[-%d-]>\n\n", i);
 if (!s[i + 1] && s[i] == '%')
-	ft_putstr("LAWW");
-	
-
-
-while(is_flag(s, i) == 1 && s[i] != '%')
-	i++;
-// printf("\n\n[-%d-]\n\n", i);
-
-k = i;
-while(s[k] != '\0' && s[k + 1] != '%' && s[k])
+{
+	// ft_putstr("ICI");
+	type->len_return = 1;
+	type->str = ft_strdup("");
+	// ft_putstr(type_)
+}
+else
+{
+	// ft_putstr("ICI");
+	while(is_flag(s, i) == 1 && s[i] != '%')
+		i++;
+	k = i;
+	while(s[k] != '\0' && s[k + 1] != '%' && s[k])
 		k++;
-	// if (s[k + 1] == '%')
-	// 	ft_putstr("LA");
 	type->str = ft_strsub(s, i, (k+1)-i);
 		noconv_join(type, flags);
-// printf("\n\n/%s/\n\n", type->str);
-
-// type->str = ft_strdup("");
-type->count = k;
-	// if (s[k] == '%')
-	// 	type->count = k - 2;
+	type->count = k;
+	type->len_return = k - (int)ft_strlen(type->str);
+	// printf("[%d][%d]", type->count, type->len_return);
+	ft_putstr(type->str);
+}
 }

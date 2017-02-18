@@ -14,7 +14,10 @@
 
 void	conv_percent(t_conv *type, t_flags flags)
 {
+	// ft_putstr("ICI");
 type->str = ft_strdup("%");
 noconv_join(type, flags);
-type->len_return = 1;
+// ft_putstr(type->str);
+// type->len_return = 1;
+// type->count = 1;
 }
