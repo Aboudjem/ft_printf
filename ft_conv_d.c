@@ -33,7 +33,7 @@ t_flags	handle_d(t_flags flags)
 
 void	nb_sign(t_conv *type, t_flags flags)
 {
-type->nb = (type->d >= 0) ? ft_itoa(type->d) : ft_litoa(-type->d);
+	type->nb = (type->d >= 0) ? ft_itoa(type->d) : ft_litoa(-type->d);
 	if(type->d >= 0 && flags.plus == 1)
 		type->sign = "+";
 	else if(type->d < 0)
@@ -76,9 +76,9 @@ void 	conv_d(t_conv *type, t_flags flags)
 {
 	init(type);
 	nb_sign(type, flags);
-if (flags.pre == 0)
+	if (flags.pre == 0)
 		fill_nodot(type, flags);
-else
+	else
 	{
 		flags = handle_d(flags);	
 		fill_zero(type, flags);

@@ -20,10 +20,9 @@ void	conv_s(t_conv *type, t_flags flags)
 		type->str = ft_strdup("(null)");
 	}
 	else
-		{
-			type->str = ft_strdup(type->s);
-			s_join(type, flags);
-			type->len_return = ft_strlen(type->str);
-		}
+	{
+		type->str = ft_strdup(type->s);
+		s_join(type, flags);
+		type->len_return = ft_strlen(type->str);
+	}
 }
-

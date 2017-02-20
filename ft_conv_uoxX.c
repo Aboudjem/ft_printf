@@ -18,7 +18,7 @@ char	*revert_str(char *str, int i)
 	int j = 0;
 	tmp = ft_strnew(i+1);
 	while(str[i] == '\0') 
-	i--;
+		i--;
 	while (i >= 0)
 	{
 		tmp[j] = str[i];
@@ -40,7 +40,7 @@ void	ft_hexa(t_conv *type)
 		type->nb = ft_strdup("0");
 	else
 	{
-	type->nb = ft_strnew(22);
+		type->nb = ft_strnew(22);
 		while (nb > 0)
 		{
 			mod = (nb % 16);
@@ -48,7 +48,7 @@ void	ft_hexa(t_conv *type)
 			i++;
 			nb /= 16;
 		}
-	type->nb = revert_str(type->nb, i);
+		type->nb = revert_str(type->nb, i);
 	}
 }
 
@@ -63,7 +63,7 @@ void	ft_octal(t_conv *type)
 		type->nb = ft_strdup("0");
 	else
 	{
-	type->nb = ft_strnew(22);
+		type->nb = ft_strnew(22);
 		while (nb > 0)
 		{
 			mod = (nb % 8);
@@ -71,7 +71,7 @@ void	ft_octal(t_conv *type)
 			i++;
 			nb /= 8;
 		}
-	type->nb = revert_str(type->nb, i);
+		type->nb = revert_str(type->nb, i);
 	}
 }
 
@@ -89,36 +89,35 @@ void	ft_hashtag(t_conv *type, t_flags flags)
 
 void	conv_xX(t_conv *type, t_flags flags)
 {
-init(type);
-ft_hashtag(type, flags);
-ft_hexa(type);
-type->len_d += ft_strlen(type->nb);
-if (flags.pre == 0)
-	fill_nodot(type, flags);
-else
+	init(type);
+	ft_hashtag(type, flags);
+	ft_hexa(type);
+
+	type->len_d += ft_strlen(type->nb);
+	if (flags.pre == 0)
+		fill_nodot(type, flags);
+	else
 	{
 		flags = handle_d(flags);	
 		fill_zero(type, flags);
 		fill_space(type, flags);
 	}
-join(type, flags);
-if (type->conv == 'X')
-	ft_stroupper(type->str);
-type->len_return = (int)ft_strlen(type->str);
+	join(type, flags);
+	if (type->conv == 'X')
+		ft_stroupper(type->str);
+	type->len_return = (int)ft_strlen(type->str);
 }
 
 void	conv_oO(t_conv *type, t_flags flags)
 {
-init(type);
-ft_hashtag(type, flags);
-ft_octal(type);
-type->len_d += ft_strlen(type->nb);
-if (flags.pre == 0)
+	init(type);
+	ft_hashtag(type, flags);
+	ft_octal(type);
+	type->len_d += ft_strlen(type->nb);
+	if (flags.pre == 0)
 		fill_nodot(type, flags);
-else
+	else
 	{
-		// ft_putstr("lalal");
-		// ft_putstr(type->str);
 		flags = handle_d(flags);	
 		fill_zero(type, flags);
 		fill_space(type, flags);

@@ -18,16 +18,16 @@ void	conv_c(t_conv *type)
 	type->str[0] = type->c;
 
 	if (type->c)
-		{
-	type->str = ft_strnew(1);
-	type->str[0] = type->c;
-	type->len_return = 1;
-		}	
+	{
+		type->str = ft_strnew(1);
+		type->str[0] = type->c;
+		type->len_return = 1;
+	}	
 	else if (type->c == 0)
 	{
 		ft_putchar('\0');
-			// type->str[0] = 0;
-			type->len_return = 1;
+		type->str[0] = 0;
+		type->len_return = 1;
 
 	}
 }
