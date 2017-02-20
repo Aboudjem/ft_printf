@@ -45,6 +45,22 @@ void	ft_stroupper(char *s)
 	}
 }
 
+int	ft_wstrcmp(const wchar_t *s1, const wchar_t *s2)
+{
+	while (*s1 != '\0' || *s2 != '\0')
+	{
+		if (*s1 == *s2)
+		{
+			s1++;
+			s2++;
+		}
+		else
+			return (*s1 - *s2);
+	}
+	return (0);
+}
+
+
 void	*ft_strset(int c,size_t len)
 {
 	char *s;

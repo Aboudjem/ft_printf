@@ -147,13 +147,31 @@ void	fill_zero(t_conv *type, t_flags flags)
 	type->zero = ft_strset('0', type->len_zero);
 }
 
+char *handle_zero(t_conv type, t_flags flags)
+{
+	char *s;
+	if (flags.pre == 1)
+{
+		type.nb = ft_strdup("");
+		flags = handle_d(flags);	
+		fill_zero(&type, flags);
+		fill_space(&type, flags);
+		s = ft_strjoin(type.space, type.zero);
+		s = ft_strjoin_free(&s, &type.nb, 1);
+		return(ft_strjoin(s, type.sign));
+	}
+
+return(type.nb);
+}
+
 void join(t_conv *type, t_flags flags)
 {
 	char *s;
 
-	if ((type->d == 0 || type->u == 0) && flags.pre == 1 && (flags.negdot == 1 || flags.dot == 0))
+	if (((type->d == 0 || type->u == 0) && flags.pre == 1) && (flags.negdot == 1 || flags.dot == 0))
 			type->str = handle_zero(*type, flags);
-	else if (flags.negdot == 1)
+	else 
+		if (flags.negdot == 1)
 	{
 		if (ft_strlen(type->zero) > 0)
 				type->space = ft_strset(' ', (ft_strlen(type->zero)) - ft_strlen(type->sign));
@@ -170,9 +188,11 @@ void join(t_conv *type, t_flags flags)
 	}
 	else
 	{
+		// ft_putstr("LOL")
 s = ft_strjoin(type->space, type->sign);
 s = ft_strjoin_free(&s, &type->zero, 1);
 type->str = ft_strjoin_free(&s, &type->nb, 1);
+// ft_putstr(type->str);
 	}
  if (ft_strlen(type->zero) > 0)
  	ft_strdel(&type->zero);

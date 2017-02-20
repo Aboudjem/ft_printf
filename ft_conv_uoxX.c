@@ -72,7 +72,6 @@ void	ft_octal(t_conv *type)
 			nb /= 8;
 		}
 	type->nb = revert_str(type->nb, i);
-	// ft_putstr(type->nb);
 	}
 }
 
@@ -118,6 +117,8 @@ if (flags.pre == 0)
 		fill_nodot(type, flags);
 else
 	{
+		// ft_putstr("lalal");
+		// ft_putstr(type->str);
 		flags = handle_d(flags);	
 		fill_zero(type, flags);
 		fill_space(type, flags);

@@ -15,9 +15,9 @@ void	nb_sign_u(t_conv *type, t_flags flags)
 {
 type->nb = ft_litoa(type->u);
 	if(type->u > 0 && flags.plus == 1)
-		type->sign = "+";
+		type->sign = "";
 	else if (flags.space == 1)
-		type->sign = " ";
+		type->sign = "";
 	type->len_d = ft_strlen(type->nb) + ft_strlen(type->sign);
 }
 

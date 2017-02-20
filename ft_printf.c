@@ -27,7 +27,7 @@ void len_return(t_conv *type, t_flags flags)
 	else if (type->conv == 'c')
 			conv_c(type);
 	else if (type->conv == 'C')
-			conv_wc((unsigned int)type->c, type);
+			conv_wc((unsigned long int)type->c, type);
 	else if (type->conv == 'x' || type->conv == 'X')
 			conv_xX(type, flags);
 	else if (type->conv == 'o' || type->conv == 'O')
@@ -36,8 +36,8 @@ void len_return(t_conv *type, t_flags flags)
 			conv_u(type, flags);
 	else if (type->conv == 'D')
 			conv_d(type, flags);
-	// else if (type->conv == '%')
-			// conv_percent(type, flags);
+	else if (type->conv == '%')
+			conv_percent(type, flags);
 if (type->str)
 	{
 	ft_putstr(type->str);
@@ -68,20 +68,21 @@ void	modif_length(t_flags *flags, t_conv *type)
 		flags->hh = 0;
 		flags->h = 0;
 	}
-		else if (type->conv == 'O')
-	{
-		type->conv = 'o';
-		flags->hh = 0;
-		flags->h = 0;
-		flags->l = 1;
-	}
+
 	else if (type->conv == 'C')
 	{
 		type->conv = 'C';
 		flags->hh = 0;
 		flags->h = 0;
 		// flags->l = 1;	
-	}
+	}	
+	// 	else if (type->conv == 'O')
+	// {
+	// 	type->conv = 'o';
+	// 	flags->hh = 0;
+	// 	flags->h = 0;
+	// 	flags->l = 1;
+	// }
 
 }
 
@@ -91,9 +92,7 @@ void  get_length(t_flags flags, t_conv *type)
 	type->d = (short)va_arg(type->arguments,long long int);
    	else if (flags.hh == 1 && flags.h == 0)
 	type->d = (char)va_arg(type->arguments, long long int);
-   	else if (flags.l == 1)
-	type->d = (long)va_arg(type->arguments, long long int);
-	else if (flags.ll == 1 && flags.l == 0)
+	else if (flags.ll == 1 || flags.l == 1)
 	type->d = (long long)va_arg(type->arguments, long long);
 	else if (flags.j == 1)
 	type->d = (intmax_t)va_arg(type->arguments, long long);
@@ -109,14 +108,30 @@ void  get_length_u(t_flags flags, t_conv *type)
 	type->u = (unsigned short)va_arg(type->arguments,unsigned long long int);
    	else if (flags.hh == 1)
 	type->u = (unsigned char)va_arg(type->arguments,unsigned long long int);
-   	else if (flags.l == 1)
+   	else if (flags.l == 1 || flags.ll == 1)
 	type->u = (unsigned long)va_arg(type->arguments,unsigned long long int);
 	else if (flags.j == 1)
 	type->u = (uintmax_t)va_arg(type->arguments,unsigned long long);
 	else if (flags.z == 1)
-	type->u = (size_t)va_arg(type->arguments, long long);
+	type->u = (size_t)va_arg(type->arguments,unsigned long long);
 	else
 	type->u = (unsigned long long)va_arg(type->arguments,unsigned long long int);
+}
+
+void  get_length_o(t_flags flags, t_conv *type)
+{
+	if (flags.h == 1)
+	type->u = (unsigned short)va_arg(type->arguments,unsigned long long int);
+   	else if (flags.hh == 1)
+	type->u = (unsigned char)va_arg(type->arguments,unsigned long long int);
+   	else if (flags.l == 1 || flags.ll == 1)
+	type->u = (unsigned long)va_arg(type->arguments,unsigned long long int);
+	else if (flags.j == 1)
+	type->u = (uintmax_t)va_arg(type->arguments,unsigned long long);
+	else if (flags.z == 1)
+	type->u = (size_t)va_arg(type->arguments,unsigned long long);
+	else
+	type->u = (unsigned int)va_arg(type->arguments,unsigned long long int);
 }
 
 t_conv which_conv(const char *s, int i, t_conv type, t_flags flags)
@@ -140,6 +155,7 @@ if (s[i] && s[i + 1])
 
     	// ft_putstr("oups");
     	type.count--;
+    	// type.len_return = 1;
     }
     type.conv = next_conv(s, i);
     // ft_putchar(type.conv);
@@ -159,9 +175,11 @@ if (s[i] && s[i + 1])
 	else if (type.conv == 'u' )
 		get_length_u(flags, &type);
 	else if (type.conv == 'c' || type.conv == 'C')
-	type.c = (unsigned int)va_arg(type.arguments, unsigned int);
-	else if (type.conv == '%')
-		conv_percent(&type, flags);
+	type.c = (unsigned long int)va_arg(type.arguments, unsigned long int);
+	else if (type.conv == 'o')
+		get_length_o(flags, &type);
+	else if (type.conv == 'O')
+		type.u = (unsigned long int)va_arg(type.arguments, unsigned long long int);// conv_percent(&type, flags);
 	else
     get_length_u(flags, &type);
 	
@@ -169,9 +187,10 @@ if (s[i] && s[i + 1])
     }
     else
     {
-    	// printf("[%c]", type.conv);
+    	// printf("LO");
     	no_conv(s, i, &type, flags);
-    	type.len_return = type.count;
+    	// type.len_return = type.count;
+    	// type.count = type.len_return;
     	// len_return(&type, flags);
     }
     return (type);
@@ -231,7 +250,6 @@ int ft_printf(const char *format, ...)
     t_conv type;
     t_flags flags;
     va_start(type.arguments, format);
-	init(&type);
 	int len;
 	len = ft_strlen(format);
 
@@ -239,10 +257,14 @@ int ft_printf(const char *format, ...)
     {
 		if (format[i] == '%')// && format[i + 1])
 		{
+	init(&type);
+
 		    flags = which_flags(format, i, type);
 		    type = which_conv(format, i, type, flags);
 			j += type.len_return;
 		    i = type.count + i + 1;
+
+		    // ft_putnbr(j);
 
 		// printf("<[%c][%d]>]\n", format[i], i);
     	// printf("[%d][%d]", type.len_return, type.count);

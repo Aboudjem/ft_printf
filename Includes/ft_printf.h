@@ -66,12 +66,14 @@ typedef struct s_flags
 } t_flags;
 
 
+int ft_wstrcmp(const wchar_t *s1, const wchar_t *s2);
 void    no_conv(const char *s, int i, t_conv *type, t_flags flags);
 int     count_char(const char *s, int i);
 void  no_fill_nodot(t_conv *type, t_flags flags);
 void noconv_join(t_conv *type, t_flags flags);
 int is_flag(const char *s, int i);
 /** Ft_printf.c **/
+void  get_length_o(t_flags flags, t_conv *type);
 
 int ft_printf(const char *format, ...);
 void get_padding(const char *s, int i, t_flags *flags);
@@ -117,7 +119,7 @@ void    p_join(t_conv *type, t_flags flags);
 /** Ft_conv_CS.c **/
 
 int len_c(unsigned int c);
-void    conv_wc(unsigned int c, t_conv *type);
+void    conv_wc(unsigned long int c, t_conv *type);
 void    conv_ws(t_conv *type, t_flags flags);
 void    s_join(t_conv *type, t_flags flags);
 void  s_fill_zero(t_conv *type, t_flags flags);

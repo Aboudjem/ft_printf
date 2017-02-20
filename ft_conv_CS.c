@@ -62,10 +62,10 @@ if (c < 128)
 return(0);
 }
 
-void  conv_wc(unsigned int c, t_conv *type)
+void  conv_wc(unsigned long int c, t_conv *type)
 {
   type->str = ft_strnew(4);// if (MB_CUR_MAX == 1)
-  if (c < 128)
+  if (c < 128 && c > 0)
     type->str[0] = c;
   else if (c < 2048)
   {
@@ -85,10 +85,12 @@ void  conv_wc(unsigned int c, t_conv *type)
   type->str[2] = (128 | ((c >> 6) & 63));
   type->str[3] = (128 | (c & 63));
   }
-  if (type->c == 0 && type->c)
+  if (c == 0) //&& !type->c)
+  {
+    ft_putchar('\0');
+    ft_bzero(type->str, 1);
     type->len_return = 1;
-  else if (!type->c)
-    type->len_return = 1;
+  }
   else
     type->len_return = len_c(c);//(int)ft_strlen(type->str);
 }
@@ -101,10 +103,10 @@ void  conv_ws(t_conv *type, t_flags flags)
   char *tmp;
   tmp = ft_strdup("");
   type->len_return = 0;
-	if (!type->w)
+	 if (!type->w || ft_wstrcmp(type->w, L"(null)") == 0)
   {
     type->len_return = 6;
-		type->str = ft_strdup("(null)");
+    type->str = ft_strdup("(null)");
   }
 	else
 	{
