@@ -16,7 +16,7 @@ void get_padding(const char *s, int i, t_flags *flags)
 {
 	int j;
 	j = 0;
-	
+
 	flags->zero = (s[i] == '0') ? 1 : flags->zero;
 	flags->champs = 1;
 	while (ft_isdigit(s[i]) == 0)
@@ -24,12 +24,15 @@ void get_padding(const char *s, int i, t_flags *flags)
 		j++;
 		i++;
 	}
+	flags->zero = (s[i] == '0') ? 1 : flags->zero;
 	flags->pad = ft_atoi(s+i);
 	while (ft_isdigit(s[i]) == 1 )
 	{
 		j++;
 		i++;
 	}
+	flags->neg = (s[i] == '-') ? 1 : flags->neg;
+
 	flags->len_pad = j;
 }
 
@@ -50,10 +53,10 @@ void	get_precision(const char *s, int i, t_flags *flags)
 int 	is_flag(const char *s, int i)
 {
 	int j = 0;
-	char *conv = " -#+.0123456789lhjz";
-	while (conv[j] != '\0')
+	char *flag = " -#+.0123456789lhjz";
+	while (flag[j] != '\0')
 	{
-		if (s[i] != conv[j])
+		if (s[i] != flag[j])
 			j++;
 		else
 			return (1);
@@ -101,6 +104,7 @@ void	init(t_conv *type)
 
 void	fill_nodot(t_conv *type, t_flags flags)
 {
+// ft_putnbr(flags.zero);
 	if (flags.pre == 0)
 	{
 		if (flags.zero == 0 && flags.pad > type->len_d)
@@ -152,6 +156,7 @@ char *handle_zero(t_conv type, t_flags flags)
 	char *s;
 	if (flags.pre == 1)
 	{
+		// if()
 		type.nb = ft_strdup("");
 		flags = handle_d(flags);	
 		fill_zero(&type, flags);
@@ -160,16 +165,18 @@ char *handle_zero(t_conv type, t_flags flags)
 		s = ft_strjoin_free(&s, &type.nb, 1);
 		return(ft_strjoin(s, type.sign));
 	}
-
 	return(type.nb);
 }
 
 void join(t_conv *type, t_flags flags)
 {
 	char *s;
-
-	if (((type->d == 0 || type->u == 0) && flags.pre == 1) && (flags.negdot == 1 || flags.dot == 0))
-		type->str = handle_zero(*type, flags);
+// printf("pre[%d]u[%llu]d[%lld]", flags.pre, type->u, type->d);
+	if (((type->d == 0 && flags.d_used == 1) || (type->u == 0 && flags.u_used == 1)) && flags.pre == 1) //&& (flags.negdot == 1 || flags.dot == 0))
+		{
+	// printf("[%d],[%d]", flags.u_used, flags.d_used);
+			type->str = handle_zero(*type, flags);
+		}
 	else 
 		if (flags.negdot == 1)
 		{
@@ -188,14 +195,13 @@ void join(t_conv *type, t_flags flags)
 		}
 		else
 		{
-		// ft_putstr("LOL")
 			s = ft_strjoin(type->space, type->sign);
 			s = ft_strjoin_free(&s, &type->zero, 1);
 			type->str = ft_strjoin_free(&s, &type->nb, 1);
-// ft_putstr(type->str);
 		}
 		if (ft_strlen(type->zero) > 0)
 			ft_strdel(&type->zero);
 		if (ft_strlen(type->space) > 0)
 			ft_strdel(&type->space);
 	}
+	

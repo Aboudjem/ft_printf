@@ -81,7 +81,7 @@ void	ft_hashtag(t_conv *type, t_flags flags)
 	{
 		if (type->conv == 'x' || type->conv == 'X')
 			type->sign = "0x";
-		else if (type->conv == 'o')
+		else if (type->conv == 'o' && type->u > 0)
 			type->sign = "0";
 		type->len_d += (int)ft_strlen(type->sign);
 	}

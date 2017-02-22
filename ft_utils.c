@@ -114,4 +114,7 @@ void init_flags(t_flags *flags)
 	flags->z = 0;
 	flags->negdot = 0;
 	flags->pad = 0;
+	flags->u_used = 0;
+	flags->d_used = 0;
+
 }

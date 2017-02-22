@@ -25,7 +25,9 @@ void len_return(t_conv *type, t_flags flags)
 	else if (type->conv == 'd' || type->conv == 'i')// || type->conv == 'D')
 		conv_d(type, flags);
 	else if (type->conv == 'c')
-		conv_c(type);
+	{
+		conv_c(type, flags);
+	}
 	else if (type->conv == 'C')
 		conv_wc((unsigned long int)type->c, type);
 	else if (type->conv == 'x' || type->conv == 'X')
@@ -38,13 +40,14 @@ void len_return(t_conv *type, t_flags flags)
 		conv_d(type, flags);
 	else if (type->conv == '%')
 		conv_percent(type, flags);
-	if (type->str)
+	if (type->str && type->str != NULL)
 	{
 		ft_putstr(type->str);
 		ft_strdel(&type->str);
 	}
-	else{
-		ft_putstr(type->s);
+	else
+	{
+		ft_putstr("--111---");
 	}
 }
 
@@ -74,6 +77,14 @@ void	modif_length(t_flags *flags, t_conv *type)
 		flags->hh = 0;
 		flags->h = 0;
 	}
+	else if (type->conv == 'O')
+	{
+		type->conv = 'o';
+		flags->l = 1;
+		flags->hh = 0;
+		flags->h = 0;
+	}
+
 
 	else if (type->conv == 'C')
 	{
@@ -92,33 +103,39 @@ void	modif_length(t_flags *flags, t_conv *type)
 
 }
 
-void  get_length(t_flags flags, t_conv *type)
+void  get_length(t_flags *flags, t_conv *type)
 {
-	if (flags.h == 1)
+	
+	// printf("JE SuiS DEDANS");
+	flags->d_used = 1;
+
+	if (flags->h == 1)
 		type->d = (short)va_arg(type->arguments,long long int);
-	else if (flags.hh == 1 && flags.h == 0)
+	else if (flags->hh == 1 && flags->h == 0)
 		type->d = (char)va_arg(type->arguments, long long int);
-	else if (flags.ll == 1 || flags.l == 1)
+	else if (flags->ll == 1 || flags->l == 1)
 		type->d = (long long)va_arg(type->arguments, long long);
-	else if (flags.j == 1)
+	else if (flags->j == 1)
 		type->d = (intmax_t)va_arg(type->arguments, long long);
-	else if (flags.z == 1)
+	else if (flags->z == 1)
 		type->d = (ssize_t)va_arg(type->arguments, long long);
 	else
 		type->d = (int)va_arg(type->arguments, long long int);
 }
 
-void  get_length_u(t_flags flags, t_conv *type)
+void  get_length_u(t_flags *flags, t_conv *type)
 {
-	if (flags.h == 1)
+	// printf("jrentre ici");
+	flags->u_used = 1;
+	if (flags->h == 1)
 		type->u = (unsigned short)va_arg(type->arguments,unsigned long long int);
-	else if (flags.hh == 1)
+	else if (flags->hh == 1)
 		type->u = (unsigned char)va_arg(type->arguments,unsigned long long int);
-	else if (flags.l == 1 || flags.ll == 1)
+	else if (flags->l == 1 || flags->ll == 1)
 		type->u = (unsigned long)va_arg(type->arguments,unsigned long long int);
-	else if (flags.j == 1)
+	else if (flags->j == 1)
 		type->u = (uintmax_t)va_arg(type->arguments,unsigned long long);
-	else if (flags.z == 1)
+	else if (flags->z == 1)
 		type->u = (size_t)va_arg(type->arguments,unsigned long long);
 	else
 		type->u = (unsigned int)va_arg(type->arguments,unsigned long long int);
@@ -126,7 +143,7 @@ void  get_length_u(t_flags flags, t_conv *type)
 
 // void  get_length_o(t_flags flags, t_conv *type)
 // {
-// 	if (flags.h == 1)
+// 	if (flags.h == 1)ı
 // 		type->u = (unsigned short)va_arg(type->arguments,unsigned long long int);
 // 	else if (flags.hh == 1)
 // 		type->u = (unsigned char)va_arg(type->arguments,unsigned long long int);
@@ -167,18 +184,19 @@ t_conv which_conv(const char *s, int i, t_conv type, t_flags flags)
 		else if(type.conv == 'p')
 			type.p = (void *)va_arg(type.arguments, void *);
 		else if (type.conv == 'd' || type.conv == 'i')
-			get_length(flags,&type);
+			get_length(&flags,&type);
 		else if (type.conv == 'u' )
-			get_length_u(flags, &type);
+			get_length_u(&flags, &type);
 		else if (type.conv == 'c' || type.conv == 'C')
 			type.c = (unsigned long int)va_arg(type.arguments, unsigned long int);
 		else if (type.conv == 'o' || type.conv == 'x' || type.conv == 'X')
-			get_length_u(flags, &type);
+			get_length_u(&flags, &type);
 		else if (type.conv == 'O')
 		type.u = (unsigned long int)va_arg(type.arguments, unsigned long long int);// conv_percent(&type, flags);
 	else if (type.conv != '%')
-		get_length_u(flags, &type);
+		get_length_u(&flags, &type);
 	len_return(&type, flags);
+	// type->len
 }
 else
 	no_conv(s, i, &type, flags);
@@ -208,7 +226,7 @@ t_flags which_flags(const char *s, int i, t_conv type)
 	init_flags(&flags);  
 	type.count = 0;
 	i++;
-	while (next_conv(s, i) == 0 && s[i] != '\0')
+	while (is_flag(s, i) == 1  && s[i] != '\0')
 	{
 		flags.space = (s[i] == ' ') ? 1 : flags.space;
 		flags.neg = (s[i] == '-') ? 1 : flags.neg;
@@ -243,20 +261,25 @@ int ft_printf(const char *format, ...)
 	{
 		if (format[i] == '%')// && format[i + 1])
 		{
-
 			init(&type);
 			flags = which_flags(format, i, type);
 			type = which_conv(format, i, type, flags);
+			// ft_putnbr(type-)
+
 			j += type.len_return;
+
 			i += type.count + 1;
 		}
 		else
 		{
+			// printf("[%c]", format[i]);
 			ft_putchar(format[i]);
 			i++;
 			j++;
 		}
 	}
 	va_end(type.arguments);
+	
+
 	return (j);
 }

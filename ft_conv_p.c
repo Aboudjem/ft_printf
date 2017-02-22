@@ -12,6 +12,34 @@
 
 #include "ft_printf.h"
 
+void  p_fill_nodot(t_conv *type, t_flags flags, char *x)
+{
+  int len;
+  len = (int)ft_strlen(type->str) + (int)ft_strlen(x);
+  if (len == 0)
+    len++;
+  if (flags.pre == 0)
+  {
+    if (flags.zero == 0 && flags.pad > len)
+      type->space = ft_strset(' ', flags.pad - len);
+    else if (flags.zero == 1 && flags.pad > len)
+      type->zero = ft_strset('0', flags.pad - len);
+  }
+  if (flags.neg == 1)
+  {
+        type->str = ft_strjoin(type->zero, type->str);
+  	type->str = ft_strjoin(x, type->str);
+    type->str = ft_strjoin(type->str, type->space);
+  }
+  else
+  {
+    type->str = ft_strjoin(type->zero, type->str);
+  	type->str = ft_strjoin(x, type->str);
+    type->str = ft_strjoin(type->space, type->str);
+  }
+  // type->str = ft_strjoin(x, type->str);
+}
+
 void	ft_hexa_p(t_conv *type)
 {
 	int mod = 0;
@@ -44,13 +72,18 @@ void	conv_p(t_conv *type, t_flags flags)
 	if (type->p > 0)
 	type->str = ft_strjoin_free(&x,&type->str, 2);
 	else
-	type->str = ft_strjoin(x, "0");
+	{
+	// type->str = ft_strjoin(x, type->str);
+		p_fill_nodot(type, flags, x);
 	ft_strdel(&x);
 	// ft_putstr(type->str);
-	if (flags.pre == 1)
-		p_join(type, flags);
+	}// ft_putstr(type->str);
+	// if (flags.pre == 1)
+	// 	p_join(type, flags);
 type->len_return = (int)ft_strlen(type->str);
 }
+
+
 
 void p_join(t_conv *type, t_flags flags)
 {

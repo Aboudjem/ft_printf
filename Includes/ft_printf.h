@@ -15,6 +15,8 @@
 #include "libft.h"
 #include <stdarg.h>
 #include <stdio.h>
+#include <locale.h>
+
 // penser a FREE les MALLOC et enlever les PRINTF
 typedef struct s_type
 {
@@ -63,6 +65,8 @@ typedef struct s_flags
     int champs;
     int len_pre;
     int len_pad;
+    int u_used;
+    int d_used;
 } t_flags;
 
 
@@ -81,15 +85,15 @@ void get_precision(const char *s, int i, t_flags *flags);
 char next_conv(const char *s, int i);
 void len_return(t_conv *type, t_flags flags);
 void print_type(t_conv type, t_flags flags, const char *s, int i);
-void  get_length(t_flags flags, t_conv *type);
+void  get_length(t_flags *flags, t_conv *type);
 t_conv which_conv(const char *s, int i, t_conv type, t_flags flags);
 t_flags which_length(const char *s, int i, t_flags flags);
 t_flags which_flags(const char *s, int i, t_conv type);
-void  get_length_u(t_flags flags, t_conv *type);
+void  get_length_u(t_flags *flags, t_conv *type);
 // void  get_length_o(t_flags flags, t_conv *type);
 
 /** Ft_conv_c.c **/
-void    conv_c(t_conv *type);
+void    conv_c(t_conv *type, t_flags flags);
 /** Ft_conv_d.c **/
 
 void    conv_d(t_conv *type, t_flags flags);
@@ -117,6 +121,11 @@ void    conv_p(t_conv *type, t_flags flags);
 void    p_join(t_conv *type, t_flags flags);
 
 /** Ft_conv_CS.c **/
+void  one_bytes(unsigned long int c, t_conv *type);
+void  two_bytes(unsigned long int c, t_conv *type);
+void  three_bytes(unsigned long int c, t_conv *type);
+void  four_bytes(unsigned long int c, t_conv *type);
+void  how_long(unsigned long int c, t_conv *type);
 
 int len_c(unsigned int c);
 void    conv_wc(unsigned long int c, t_conv *type);

@@ -21,11 +21,6 @@ t_flags	handle_d(t_flags flags)
 		flags.pad = 0;
 	if (flags.plus == 1)
 		flags.space = 0;
-	// if (flags.dot == 0 && flags.zero == 1)
-	// 	{
-	// 		ft_putstr("lolss");
-	// 		flags.zero = 0;
-	// 	}
 	if (flags.neg == 1 && flags.zero == 1)
 		flags.zero = 0;
 	return(flags);
@@ -45,42 +40,16 @@ void	nb_sign(t_conv *type, t_flags flags)
 	type->len_d = (int)ft_strlen(type->nb) + (int)ft_strlen(type->sign);
 }
 
-// char *handle_zero(t_conv type, t_flags flags)
-// {
-// 	char *s;
-// 	if (flags.pre == 1)
-// {
-// if ((flags.pad == 0 || flags.champs == 0) && flags.dot == 0)
-// 	type.nb = ft_strdup("");
-// else if (flags.negdot == 1 && flags.dot < 1)
-// 	type.nb = ft_strdup(" ");
-// else if (flags.negdot == 1 && flags.dot > 1)
-// 	type.nb = ft_strdup(" ");
-// else if (flags.negdot == 1 && flags.dot == 1)
-// 	type.nb = ft_strdup("");
-// else
-// 	{
-// 		type.nb = ft_strdup(" ");
-// 		flags = handle_d(flags);	
-// 		fill_zero(&type, flags);
-// 		fill_space(&type, flags);
-// 		s = ft_strjoin(type.space, type.zero);
-// 		s = ft_strjoin_free(&s, &type.nb, 1);
-// 		return(ft_strjoin(s, type.sign));
-// 	}
-// }
-// return(type.nb);
-// }
-
 void 	conv_d(t_conv *type, t_flags flags)
 {
 	init(type);
+	flags = handle_d(flags);	
 	nb_sign(type, flags);
+
 	if (flags.pre == 0)
-		fill_nodot(type, flags);
+			fill_nodot(type, flags);
 	else
-	{
-		flags = handle_d(flags);	
+	{	
 		fill_zero(type, flags);
 		fill_space(type, flags);
 	}

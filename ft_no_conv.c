@@ -22,8 +22,7 @@ void noconv_join(t_conv *type, t_flags flags)
       	if (flags.neg == 1)
     	type->str = ft_strjoin(type->str, type->space);
       	else
-    	type->str = ft_strjoin(type->space, type->str);
-		      		
+    	type->str = ft_strjoin(type->space, type->str);      		
       }
   else if (flags.zero == 1 && flags.pad >= 1)
       {
@@ -31,7 +30,6 @@ void noconv_join(t_conv *type, t_flags flags)
     	type->str = ft_strjoin(type->zero, type->str);
       }
 }
-
 
 void	no_conv(const char *s, int i, t_conv *type, t_flags flags)
 {
@@ -44,10 +42,13 @@ if (!s[i + 1] && s[i] == '%')
 else
 {
 	k = i;
-	while (s[k+1] != '%')
+	while (s[k+1] != '%' && s[k +1] != '\0')
 		k++;
-	type->str = ft_strsub(s, i, k);
+	type->str = ft_strsub(s, i, k-i);
+	// printf("[%s][%d][%d]", type->str, i, k);
 	noconv_join(type, flags);
-	// type->len_return = (int)ft_strlen(type->str);
+	ft_putstr(type->str);
+	type->count += (k-i);
+	type->len_return = (int)ft_strlen(type->str);
 }
 }
