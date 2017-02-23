@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_conv_s.c                                        :+:      :+:    :+:   */
+/*   ft_strtoupper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboudjem <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: plisieck <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/04 05:33:35 by aboudjem          #+#    #+#             */
-/*   Updated: 2017/02/23 03:19:51 by plisieck         ###   ########.fr       */
+/*   Created: 2017/02/23 03:11:50 by plisieck          #+#    #+#             */
+/*   Updated: 2017/02/23 03:11:56 by plisieck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-void	conv_s(t_conv *type, t_flags flags)
+void	ft_strtoupper(char *s)
 {
-	if (!type->s)
+	int i;
+	i = 0;
+	while (s[i] != '\0')
 	{
-		type->len_return = 6;
-		type->str = ft_strdup("(null)");
-	}
-	else
-	{
-		type->str = ft_strdup(type->s);
-		s_join(type, flags);
-		type->len_return = ft_strlen(type->str);
+		s[i] = ft_toupper(s[i]);
+		i++;
 	}
 }

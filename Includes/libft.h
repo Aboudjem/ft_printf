@@ -6,7 +6,7 @@
 /*   By: aboudjem <aboudjem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/27 18:02:51 by plisieck          #+#    #+#             */
-/*   Updated: 2017/01/19 06:46:54 by aboudjem         ###   ########.fr       */
+/*   Updated: 2017/02/23 03:15:40 by plisieck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,6 @@ void			ft_sort_ascii(char **str);
 void			ft_revtab(char **str);
 void			ft_exit(const char *message);
 int				ft_hsqrt(int n);
+void			ft_strtoupper(char *s);
 
 #endif

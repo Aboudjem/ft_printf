@@ -6,7 +6,7 @@
 /*   By: aboudjem <aboudjem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/11 18:57:42 by aboudjem          #+#    #+#             */
-/*   Updated: 2017/01/27 00:32:00 by aboudjem         ###   ########.fr       */
+/*   Updated: 2017/02/23 03:07:50 by plisieck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ void len_return(t_conv *type, t_flags flags)
 	else if (type->conv == 'C')
 		conv_wc((unsigned long int)type->c, type);
 	else if (type->conv == 'x' || type->conv == 'X')
-		conv_xX(type, flags);
+		conv_x_bigx(type, flags);
 	else if (type->conv == 'o' || type->conv == 'O')
-		conv_oO(type, flags);
+		conv_o_bigo(type, flags);
 	else if (type->conv == 'u' || type->conv == 'U')//|| type->conv == 'D')
 		conv_u(type, flags);
 	else if (type->conv == 'D')

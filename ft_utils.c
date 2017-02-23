@@ -6,20 +6,19 @@
 /*   By: aboudjem <aboudjem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/15 06:05:04 by aboudjem          #+#    #+#             */
-/*   Updated: 2017/01/23 18:04:29 by aboudjem         ###   ########.fr       */
+/*   Updated: 2017/02/23 03:15:19 by plisieck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "ft_printf.h"
 
-char		*ft_litoa(unsigned long long int n)
+char	*ft_litoa(unsigned long long int n)
 {
-	unsigned long long int		tmp;
-	int		len;
-	char	*str;
-	tmp = n;
+	unsigned long long int	tmp;
+	int						len;
+	char					*str;
 
+	tmp = n;
 	len = 2;
 	while (tmp /= 10)
 		len++;
@@ -34,18 +33,7 @@ char		*ft_litoa(unsigned long long int n)
 	return (str);
 }
 
-void	ft_stroupper(char *s)
-{
-	int i;
-	i = 0;
-	while (s[i] != '\0')
-	{
-		s[i] = ft_toupper(s[i]);
-		i++;
-	}
-}
-
-int	ft_wstrcmp(const wchar_t *s1, const wchar_t *s2)
+int		ft_wstrcmp(const wchar_t *s1, const wchar_t *s2)
 {
 	while (*s1 != '\0' || *s2 != '\0')
 	{
@@ -60,13 +48,11 @@ int	ft_wstrcmp(const wchar_t *s1, const wchar_t *s2)
 	return (0);
 }
 
-
-void	*ft_strset(int c,size_t len)
+void	*ft_strset(int c, size_t len)
 {
 	char *s;
 
 	s = ft_strnew(len);
-
 	while (len > 0)
 	{
 		len--;
@@ -75,9 +61,10 @@ void	*ft_strset(int c,size_t len)
 	return (s);
 }
 
-int	ft_len_int(int nbr)
+int		ft_len_int(int nbr)
 {
 	int i;
+
 	i = 0;
 	if (nbr == 0)
 		return (1);
@@ -91,11 +78,10 @@ int	ft_len_int(int nbr)
 		nbr /= 10;
 		i++;
 	}
-	return(i);
+	return (i);
 }
 
-
-void init_flags(t_flags *flags)
+void	init_flags(t_flags *flags)
 {
 	flags->pre = 0;
 	flags->champs = 0;
@@ -116,5 +102,4 @@ void init_flags(t_flags *flags)
 	flags->pad = 0;
 	flags->u_used = 0;
 	flags->d_used = 0;
-
 }

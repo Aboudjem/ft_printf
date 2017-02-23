@@ -6,7 +6,7 @@
 /*   By: aboudjem <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/04 08:50:39 by aboudjem          #+#    #+#             */
-/*   Updated: 2017/02/04 08:50:41 by aboudjem         ###   ########.fr       */
+/*   Updated: 2017/02/23 03:47:41 by plisieck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	ft_hashtag(t_conv *type, t_flags flags)
 	}
 }
 
-void	conv_xX(t_conv *type, t_flags flags)
+void	conv_x_bigx(t_conv *type, t_flags flags)
 {
 	init(type);
 	ft_hashtag(type, flags);
@@ -104,11 +104,11 @@ void	conv_xX(t_conv *type, t_flags flags)
 	}
 	join(type, flags);
 	if (type->conv == 'X')
-		ft_stroupper(type->str);
+		ft_strtoupper(type->str);
 	type->len_return = (int)ft_strlen(type->str);
 }
 
-void	conv_oO(t_conv *type, t_flags flags)
+void	conv_o_bigo(t_conv *type, t_flags flags)
 {
 	init(type);
 	ft_hashtag(type, flags);
