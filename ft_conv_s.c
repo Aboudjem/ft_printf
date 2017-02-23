@@ -14,10 +14,21 @@
 
 void	conv_s(t_conv *type, t_flags flags)
 {
-	if (!type->s)
+	if (!type->s && flags.pre == 0)
 	{
 		type->len_return = 6;
 		type->str = ft_strdup("(null)");
+	}
+	else if (!type->s && flags.pre == 1)
+	{
+		if (flags.zero == 0 && flags.pad)
+			type->str = ft_strset(' ', flags.pad);
+		else if (flags.zero == 1 && flags.pad)
+			type->str = ft_strset('0', flags.pad);
+		ft_putstr(type->str);
+		// ft_putchar('\0');
+		type->len_return = ft_strlen(type->str);
+		type->str = ft_strdup("");
 	}
 	else
 	{

@@ -14,13 +14,17 @@
 
 void	conv_c(t_conv *type, t_flags flags)
 {
-	type->str = ft_strdup("");
+	char *tmp;
+
+	tmp = ft_strnew(1);
+	tmp[0] = type->c;
+	type->str = ft_strdup(tmp);
 	s_fill_nodot(type, flags);
 	if (type->c)
 	{
-		type->str = ft_strnew(1);
-		type->str[0] = type->c;
-		type->len_return = 1;
+		// type->str = ft_strnew(1);
+		// type->str[0] = type->c;
+		type->len_return = ft_strlen(type->str);
 	}
 	else if (type->c == 0 && (int)ft_strlen(type->str) > 0)
 	{

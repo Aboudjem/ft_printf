@@ -19,7 +19,7 @@ void	s_fill_nodot(t_conv *type, t_flags flags)
 	len = (int)ft_strlen(type->str);
 	if (len == 0)
 		len++;
-	if (flags.pre == 0)
+	if (flags.pre == 0 || type->conv == 'c' || type->conv == 's')
 	{
 		if (flags.zero == 0 && flags.pad > len)
 			type->space = ft_strset(' ', flags.pad - len);
@@ -85,6 +85,11 @@ void	s_join(t_conv *type, t_flags flags)
 {
 	int i;
 
+if (flags.pre == 1 && flags.dot == 0)
+{	
+	type->str = (flags.zero == 1) ? ft_strdup("0") : ft_strdup(" ");
+	flags.pre = 0;
+}
 	if (type->conv == 'S')
 		i = s_pre(type, flags);
 	else
@@ -98,8 +103,4 @@ void	s_join(t_conv *type, t_flags flags)
 		s_fill_space(type, flags);
 		type->str = ft_strjoin(type->space, type->str);
 	}
-	if (ft_strlen(type->zero) > 0)
-		ft_strdel(&type->zero);
-	if (ft_strlen(type->space) > 0)
-		ft_strdel(&type->space);
 }
