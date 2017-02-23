@@ -12,31 +12,50 @@
 
 #include "ft_printf.h"
 
-void  p_fill_nodot(t_conv *type, t_flags flags, char *x)
+void  p_fill_zero(t_conv *type, t_flags flags)
 {
-  int len;
-  len = (int)ft_strlen(type->str) + (int)ft_strlen(x);
-  if (len == 0)
-    len++;
-  if (flags.pre == 0)
-  {
-    if (flags.zero == 0 && flags.pad > len)
-      type->space = ft_strset(' ', flags.pad - len);
-    else if (flags.zero == 1 && flags.pad > len)
-      type->zero = ft_strset('0', flags.pad - len);
-  }
-  if (flags.neg == 1)
-  {
-        type->str = ft_strjoin(type->zero, type->str);
-  	type->str = ft_strjoin(x, type->str);
-    type->str = ft_strjoin(type->str, type->space);
-  }
+	if (flags.dot > (int)ft_strlen(type->str))
+		type->len_zero = flags.dot - (int)ft_strlen(type->str);
+	else
+		type->len_space = 0;
+	type->zero = ft_strset('0', type->len_zero);
+	// ft_putstr("LALA");
+}
+
+void  p_fill_space(t_conv *type, t_flags flags)
+{
+  if (flags.pad > (int)ft_strlen(type->str))
+    type->len_space = flags.pad - ((int)ft_strlen(type->str) + (int)ft_strlen(type->sign));
   else
-  {
-    type->str = ft_strjoin(type->zero, type->str);
-  	type->str = ft_strjoin(x, type->str);
-    type->str = ft_strjoin(type->space, type->str);
-  }
+    type->len_space = 0;
+  type->space = ft_strset(' ', type->len_space);
+} 
+
+void  p_fill_nodot(t_conv *type, t_flags flags)
+{
+	int len;
+	len = (int)ft_strlen(type->str) + (int)ft_strlen(type->sign);
+	if (len == 0)
+		len++;
+	if (flags.pre == 0)
+	{
+		if (flags.zero == 0 && flags.pad > len)
+			type->space = ft_strset(' ', flags.pad - len);
+		else if (flags.zero == 1 && flags.pad > len)
+			type->zero = ft_strset('0', flags.pad - len);
+	}
+	if (flags.neg == 1)
+	{
+		type->str = ft_strjoin(type->zero, type->str);
+		type->str = ft_strjoin(type->sign, type->str);
+		type->str = ft_strjoin(type->str, type->space);
+	}
+	else
+	{
+		type->str = ft_strjoin(type->zero, type->str);
+		type->str = ft_strjoin(type->sign, type->str);
+		type->str = ft_strjoin(type->space, type->str);
+	}
   // type->str = ft_strjoin(x, type->str);
 }
 
@@ -52,7 +71,7 @@ void	ft_hexa_p(t_conv *type)
 		type->str = ft_strdup("0");
 	else
 	{
-	str = ft_strnew(22);
+		str = ft_strnew(22);
 		while (nb > 0)
 		{
 			mod = (nb % 16);
@@ -60,43 +79,56 @@ void	ft_hexa_p(t_conv *type)
 			i++;
 			nb /= 16;
 		}
-	type->str = revert_str(str, i);
+		type->str = revert_str(str, i);
 	}
 }
 
 void	conv_p(t_conv *type, t_flags flags)
 {
 	ft_hexa_p(type);
-	char *x = ft_strdup("0x");
+	type->sign = ft_strdup("0x");
 	// type->str = ft_strdup("");
-	if (type->p > 0)
-	type->str = ft_strjoin_free(&x,&type->str, 2);
+	if (flags.pre == 1 && flags.pad == 0 && type->u == 0 && flags.dot == 0)
+		type->str = ft_strdup(type->sign);
 	else
 	{
+// ft_putstr("ici");
+
 	// type->str = ft_strjoin(x, type->str);
-		p_fill_nodot(type, flags, x);
-	ft_strdel(&x);
+	if (flags.pre == 0)
+		p_fill_nodot(type, flags);
+	else
+		p_join(type, flags);	
 	// ft_putstr(type->str);
 	}// ft_putstr(type->str);
 	// if (flags.pre == 1)
 	// 	p_join(type, flags);
-type->len_return = (int)ft_strlen(type->str);
+	type->len_return = (int)ft_strlen(type->str);
 }
 
+
+
+	// if (flags.pre == 1 && flags.pad == 0 && type->u == 0)
+	// 	type->str = ft_strdup(x);
+	// else if (flags.champs == 1 && flags.pre == 0)
+	// 	p_fill_nodot(type, flags, x);
+	// else if (flags.pre == 1)
+	// 	p_join(type, flags);
+		// type->str = ft_strjoin(x, type->str);
 
 
 void p_join(t_conv *type, t_flags flags)
 {
 
-if (flags.pre == 0)
-  s_fill_nodot(type, flags);
-else if (flags.pre == 1)
-{
-    s_fill_space(type, flags);
-    type->str = ft_strjoin(type->space, type->str);
+// printf("[%s]", type->str);
+		p_fill_space(type, flags);
+		p_fill_zero(type, flags);
+
+
+		type->str = ft_strjoin(type->zero, type->str);
+		type->str = ft_strjoin(type->sign, type->str);
+		if (flags.neg == 1)
+			type->str = ft_strjoin(type->str, type->space);
+		else
+			type->str = ft_strjoin(type->space, type->str);
 }
- if (ft_strlen(type->zero) > 0)
-  ft_strdel(&type->zero);
- if (ft_strlen(type->space) > 0)
-  ft_strdel(&type->space);
- }

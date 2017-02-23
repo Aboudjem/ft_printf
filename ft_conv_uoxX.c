@@ -6,7 +6,7 @@
 /*   By: aboudjem <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/04 08:50:39 by aboudjem          #+#    #+#             */
-/*   Updated: 2017/02/23 03:47:41 by plisieck         ###   ########.fr       */
+/*   Updated: 2017/02/04 08:50:41 by aboudjem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,15 @@ void	ft_hashtag(t_conv *type, t_flags flags)
 	if (flags.hash == 1)
 	{
 		if (type->conv == 'x' || type->conv == 'X')
-			type->sign = "0x";
+			{
+				if (type->u > 0)
+					type->sign = "0x";
+				else
+					type->sign = "";
+			}
 		else if (type->conv == 'o' && type->u > 0)
+			type->sign = "0";
+		else if (type->conv == 'o' && flags.hash == 1 && flags.pre == 1)
 			type->sign = "0";
 		type->len_d += (int)ft_strlen(type->sign);
 	}
@@ -105,6 +112,8 @@ void	conv_x_bigx(t_conv *type, t_flags flags)
 	join(type, flags);
 	if (type->conv == 'X')
 		ft_strtoupper(type->str);
+
+
 	type->len_return = (int)ft_strlen(type->str);
 }
 
