@@ -6,7 +6,7 @@
 /*   By: aboudjem <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/04 08:50:39 by aboudjem          #+#    #+#             */
-/*   Updated: 2017/02/04 08:50:41 by aboudjem         ###   ########.fr       */
+/*   Updated: 2017/02/23 04:14:55 by plisieck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,4 @@ void	conv_percent(t_conv *type, t_flags flags)
 	type->str = ft_strdup("%");
 	noconv_join(type, flags);
 	type->len_return = (int)ft_strlen(type->str);
-// type->count = 2 ;
 }

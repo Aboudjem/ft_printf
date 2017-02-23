@@ -6,15 +6,16 @@
 /*   By: aboudjem <aboudjem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/15 06:39:58 by aboudjem          #+#    #+#             */
-/*   Updated: 2017/01/27 00:43:13 by aboudjem         ###   ########.fr       */
+/*   Updated: 2017/02/23 04:13:02 by plisieck         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
 void	nb_sign_u(t_conv *type, t_flags flags)
 {
 	type->nb = ft_litoa(type->u);
-	if(type->u > 0 && flags.plus == 1)
+	if (type->u > 0 && flags.plus == 1)
 		type->sign = "";
 	else if (flags.space == 1)
 		type->sign = "";
@@ -23,7 +24,6 @@ void	nb_sign_u(t_conv *type, t_flags flags)
 
 void	conv_u(t_conv *type, t_flags flags)
 {
-// char *s;
 	init(type);
 	nb_sign_u(type, flags);
 	if (flags.pre == 0)
@@ -35,5 +35,4 @@ void	conv_u(t_conv *type, t_flags flags)
 	}
 	join(type, flags);
 	type->len_return = (int)ft_strlen(type->str);
-// return(type.str); salut
 }
