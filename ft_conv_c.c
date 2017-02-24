@@ -12,31 +12,31 @@
 
 #include "ft_printf.h"
 
-void	conv_c(t_conv *type, t_flags flags)
+void	conv_c(t_conv *t, t_flags f)
 {
 	char *tmp;
 
 	tmp = ft_strnew(1);
-	tmp[0] = type->c;
-	type->str = ft_strdup(tmp);
-	s_fill_nodot(type, flags);
-	if (type->c)
+	tmp[0] = t->c;
+	t->str = ft_strdup(tmp);
+	s_fill_nodot(t, f);
+	if (t->c)
 	{
-		// type->str = ft_strnew(1);
-		// type->str[0] = type->c;
-		type->len_return = ft_strlen(type->str);
+		// t->str = ft_strnew(1);
+		// t->str[0] = t->c;
+		t->len_return = ft_strlen(t->str);
 	}
-	else if (type->c == 0 && (int)ft_strlen(type->str) > 0)
+	else if (t->c == 0 && (int)ft_strlen(t->str) > 0)
 	{
-		ft_putstr(type->str);
+		ft_putstr(t->str);
 		ft_putchar('\0');
-		type->len_return = 1 + (int)ft_strlen(type->str);
-		type->str = ft_strdup("");
+		t->len_return = 1 + (int)ft_strlen(t->str);
+		t->str = ft_strdup("");
 	}
 	else
 	{
 		ft_putchar('\0');
-		type->str[0] = 0;
-		type->len_return = 1;
+		t->str[0] = 0;
+		t->len_return = 1;
 	}
 }

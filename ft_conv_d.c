@@ -12,43 +12,43 @@
 
 #include "ft_printf.h"
 
-t_flags	handle_d(t_flags flags)
+t_flags	handle_d(t_flags f)
 {
-	if (flags.pre == 1 && flags.champs == 0)
-		flags.pad = 0;
-	if (flags.plus == 1)
-		flags.space = 0;
-	if (flags.neg == 1 && flags.zero == 1)
-		flags.zero = 0;
-	return (flags);
+	if (f.pre == 1 && f.champs == 0)
+		f.pad = 0;
+	if (f.plus == 1)
+		f.space = 0;
+	if (f.neg == 1 && f.zero == 1)
+		f.zero = 0;
+	return (f);
 }
 
-void	nb_sign(t_conv *type, t_flags flags)
+void	nb_sign(t_conv *t, t_flags f)
 {
-	type->nb = (type->d >= 0) ? ft_itoa(type->d) : ft_litoa(-type->d);
-	if (type->d >= 0 && flags.plus == 1)
-		type->sign = "+";
-	else if (type->d < 0)
-		type->sign = "-";
-	else if (flags.space == 1)
-		type->sign = " ";
+	t->nb = (t->d >= 0) ? ft_itoa(t->d) : ft_litoa(-t->d);
+	if (t->d >= 0 && f.plus == 1)
+		t->sign = "+";
+	else if (t->d < 0)
+		t->sign = "-";
+	else if (f.space == 1)
+		t->sign = " ";
 	else
-		type->sign = "";
-	type->len_d = (int)ft_strlen(type->nb) + (int)ft_strlen(type->sign);
+		t->sign = "";
+	t->len_d = (int)ft_strlen(t->nb) + (int)ft_strlen(t->sign);
 }
 
-void	conv_d(t_conv *type, t_flags flags)
+void	conv_d(t_conv *t, t_flags f)
 {
-	init(type);
-	flags = handle_d(flags);
-	nb_sign(type, flags);
-	if (flags.pre == 0)
-		fill_nodot(type, flags);
+	init(t);
+	f = handle_d(f);
+	nb_sign(t, f);
+	if (f.pre == 0)
+		fill_nodot(t, f);
 	else
 	{
-		fill_zero(type, flags);
-		fill_space(type, flags);
+		fill_zero(t, f);
+		fill_space(t, f);
 	}
-	join(type, flags);
-	type->len_return = (int)ft_strlen(type->str);
+	join(t, f);
+	t->len_return = (int)ft_strlen(t->str);
 }

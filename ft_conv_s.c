@@ -12,27 +12,27 @@
 
 #include "ft_printf.h"
 
-void	conv_s(t_conv *type, t_flags flags)
+void	conv_s(t_conv *t, t_flags f)
 {
-	if (!type->s && flags.pre == 0)
+	if (!t->s && f.pre == 0)
 	{
-		type->len_return = 6;
-		type->str = ft_strdup("(null)");
+		t->len_return = 6;
+		t->str = ft_strdup("(null)");
 	}
-	else if (!type->s && flags.pre == 1)
+	else if (!t->s && f.pre == 1)
 	{
-		if (flags.zero == 0 && flags.pad)
-			type->str = ft_strset(' ', flags.pad);
-		else if (flags.zero == 1 && flags.pad)
-			type->str = ft_strset('0', flags.pad);
-		ft_putstr(type->str);
-		type->len_return = ft_strlen(type->str);
-		type->str = ft_strdup("");
+		if (f.zero == 0 && f.pad)
+			t->str = ft_strset(' ', f.pad);
+		else if (f.zero == 1 && f.pad)
+			t->str = ft_strset('0', f.pad);
+		ft_putstr(t->str);
+		t->len_return = ft_strlen(t->str);
+		t->str = ft_strdup("");
 	}
 	else
 	{
-		type->str = ft_strdup(type->s);
-		s_join(type, flags);
-		type->len_return = ft_strlen(type->str);
+		t->str = ft_strdup(t->s);
+		s_join(t, f);
+		t->len_return = ft_strlen(t->str);
 	}
 }

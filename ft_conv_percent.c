@@ -12,11 +12,11 @@
 
 #include "ft_printf.h"
 
-void	conv_percent(t_conv *type, t_flags flags)
+void	conv_percent(t_conv *t, t_flags f)
 {
-	if (flags.neg == 1)
-		flags.zero = 0;
-	type->str = ft_strdup("%");
-	noconv_join(type, flags);
-	type->len_return = (int)ft_strlen(type->str);
+	if (f.neg == 1)
+		f.zero = 0;
+	t->str = ft_strdup("%");
+	noconv_join(t, f);
+	t->len_return = (int)ft_strlen(t->str);
 }

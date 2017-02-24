@@ -12,47 +12,47 @@
 
 #include "ft_printf.h"
 
-void	p_fill_zero(t_conv *type, t_flags flags)
+void	p_fill_zero(t_conv *t, t_flags f)
 {
-	if (flags.dot > (int)ft_strlen(type->str))
-		type->len_zero = flags.dot - (int)ft_strlen(type->str);
+	if (f.dot > (int)ft_strlen(t->str))
+		t->len_zero = f.dot - (int)ft_strlen(t->str);
 	else
-		type->len_space = 0;
-	type->zero = ft_strset('0', type->len_zero);
+		t->len_space = 0;
+	t->zero = ft_strset('0', t->len_zero);
 }
 
-void	p_fill_space(t_conv *type, t_flags flags)
+void	p_fill_space(t_conv *t, t_flags f)
 {
-	if (flags.pad > (int)ft_strlen(type->str))
-		type->len_space = flags.pad - ((int)ft_strlen(type->str) + (int)ft_strlen(type->sign));
+	if (f.pad > (int)ft_strlen(t->str))
+		t->len_space = f.pad - ((int)ft_strlen(t->str) + (int)ft_strlen(t->sign));
 	else
-		type->len_space = 0;
-	type->space = ft_strset(' ', type->len_space);
+		t->len_space = 0;
+	t->space = ft_strset(' ', t->len_space);
 }
 
-void	p_fill_nodot(t_conv *type, t_flags flags)
+void	p_fill_nodot(t_conv *t, t_flags f)
 {
 	int len;
 
-	len = (int)ft_strlen(type->str) + (int)ft_strlen(type->sign);
+	len = (int)ft_strlen(t->str) + (int)ft_strlen(t->sign);
 	if (len == 0)
 		len++;
-	if (flags.pre == 0)
+	if (f.pre == 0)
 	{
-		if (flags.zero == 0 && flags.pad > len)
-			type->space = ft_strset(' ', flags.pad - len);
-		else if (flags.zero == 1 && flags.pad > len)
-			type->zero = ft_strset('0', flags.pad - len);
+		if (f.zero == 0 && f.pad > len)
+			t->space = ft_strset(' ', f.pad - len);
+		else if (f.zero == 1 && f.pad > len)
+			t->zero = ft_strset('0', f.pad - len);
 	}
-	type->str = ft_strjoin(type->zero, type->str);
-	type->str = ft_strjoin(type->sign, type->str);
-	if (flags.neg == 1)
-		type->str = ft_strjoin(type->str, type->space);
+	t->str = ft_strjoin(t->zero, t->str);
+	t->str = ft_strjoin(t->sign, t->str);
+	if (f.neg == 1)
+		t->str = ft_strjoin(t->str, t->space);
 	else
-		type->str = ft_strjoin(type->space, type->str);
+		t->str = ft_strjoin(t->space, t->str);
 }
 
-void	ft_hexa_p(t_conv *type)
+void	ft_hexa_p(t_conv *t)
 {
 	int					mod;
 	char				*str;
@@ -63,9 +63,9 @@ void	ft_hexa_p(t_conv *type)
 	mod = 0;
 	i = 0;
 	s = "0123456789abcdef";
-	nb = (unsigned long int)type->p;
+	nb = (unsigned long int)t->p;
 	if (nb == 0)
-		type->str = ft_strdup("0");
+		t->str = ft_strdup("0");
 	else
 	{
 		str = ft_strnew(22);
@@ -76,34 +76,34 @@ void	ft_hexa_p(t_conv *type)
 			i++;
 			nb /= 16;
 		}
-		type->str = revert_str(str, i);
+		t->str = revert_str(str, i);
 	}
 }
 
-void	conv_p(t_conv *type, t_flags flags)
+void	conv_p(t_conv *t, t_flags f)
 {
-	ft_hexa_p(type);
-	type->sign = ft_strdup("0x");
-	if (flags.pre == 1 && flags.pad == 0 && type->u == 0 && flags.dot == 0)
-		type->str = ft_strdup(type->sign);
+	ft_hexa_p(t);
+	t->sign = ft_strdup("0x");
+	if (f.pre == 1 && f.pad == 0 && t->u == 0 && f.dot == 0)
+		t->str = ft_strdup(t->sign);
 	else
 	{
-		if (flags.pre == 0)
-			p_fill_nodot(type, flags);
+		if (f.pre == 0)
+			p_fill_nodot(t, f);
 		else
-			p_join(type, flags);
+			p_join(t, f);
 	}
-	type->len_return = (int)ft_strlen(type->str);
+	t->len_return = (int)ft_strlen(t->str);
 }
 
-void	p_join(t_conv *type, t_flags flags)
+void	p_join(t_conv *t, t_flags f)
 {
-	p_fill_space(type, flags);
-	p_fill_zero(type, flags);
-	type->str = ft_strjoin(type->zero, type->str);
-	type->str = ft_strjoin(type->sign, type->str);
-	if (flags.neg == 1)
-		type->str = ft_strjoin(type->str, type->space);
+	p_fill_space(t, f);
+	p_fill_zero(t, f);
+	t->str = ft_strjoin(t->zero, t->str);
+	t->str = ft_strjoin(t->sign, t->str);
+	if (f.neg == 1)
+		t->str = ft_strjoin(t->str, t->space);
 	else
-		type->str = ft_strjoin(type->space, type->str);
+		t->str = ft_strjoin(t->space, t->str);
 }

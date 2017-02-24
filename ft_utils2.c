@@ -12,41 +12,41 @@
 
 #include "ft_printf.h"
 
-void	get_padding(const char *s, int i, t_flags *flags)
+void	get_padding(const char *s, int i, t_flags *f)
 {
 	int j;
 
 	j = 0;
-	flags->zero = (s[i] == '0') ? 1 : flags->zero;
-	flags->champs = 1;
+	f->zero = (s[i] == '0') ? 1 : f->zero;
+	f->champs = 1;
 	while (ft_isdigit(s[i]) == 0)
 	{
 		j++;
 		i++;
 	}
-	flags->zero = (s[i] == '0') ? 1 : flags->zero;
-	flags->pad = ft_atoi(s + i);
+	f->zero = (s[i] == '0') ? 1 : f->zero;
+	f->pad = ft_atoi(s + i);
 	while (ft_isdigit(s[i]) == 1)
 	{
 		j++;
 		i++;
 	}
-	flags->neg = (s[i] == '-') ? 1 : flags->neg;
-	flags->len_pad = j;
+	f->neg = (s[i] == '-') ? 1 : f->neg;
+	f->len_pad = j;
 }
 
-void	get_precision(const char *s, int i, t_flags *flags)
+void	get_precision(const char *s, int i, t_flags *f)
 {
 	int j;
 
 	j = 0;
-	flags->pre = (s[i] == '.') ? 1 : flags->pre;
+	f->pre = (s[i] == '.') ? 1 : f->pre;
 	i++;
-	flags->negdot = (s[i] == '-') ? 1 : flags->negdot;
-	flags->dot = ft_atoi(s + i);
+	f->negdot = (s[i] == '-') ? 1 : f->negdot;
+	f->dot = ft_atoi(s + i);
 	if (next_conv(s, i++) == 0)
 		j++;
-	flags->len_pre = j + flags->pre + flags->negdot;
+	f->len_pre = j + f->pre + f->negdot;
 }
 
 int		is_flag(const char *s, int i)
@@ -84,14 +84,14 @@ char	next_conv(const char *s, int i)
 	return (0);
 }
 
-void	init(t_conv *type)
+void	init(t_conv *t)
 {
-	type->len_d = 0;
-	type->len_space = 0;
-	type->len_zero = 0;
-	type->sign = "";
-	type->space = "";
-	type->zero = "";
-	type->str = NULL;
-	type->len_return = 0;
+	t->len_d = 0;
+	t->len_space = 0;
+	t->len_zero = 0;
+	t->sign = "";
+	t->space = "";
+	t->zero = "";
+	t->str = NULL;
+	t->len_return = 0;
 }

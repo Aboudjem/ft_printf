@@ -12,64 +12,64 @@
 
 #include "ft_printf.h"
 
-void	u_fill_space(t_conv *type, t_flags flags)
+void	u_fill_space(t_conv *t, t_flags f)
 {
-	if (flags.dot > flags.pad && (flags.pad >= type->len_d))
-		type->len_space = 0;
-	else if (flags.pad >= flags.dot)
+	if (f.dot > f.pad && (f.pad >= t->len_d))
+		t->len_space = 0;
+	else if (f.pad >= f.dot)
 	{
-		if (flags.dot > type->len_d && ((flags.pad - flags.dot) > 0))
-			type->len_space = ((flags.pad - flags.dot) - ft_strlen(type->sign));
-		else if (flags.pad == flags.dot)
-			type->space = type->space;
+		if (f.dot > t->len_d && ((f.pad - f.dot) > 0))
+			t->len_space = ((f.pad - f.dot) - ft_strlen(t->sign));
+		else if (f.pad == f.dot)
+			t->space = t->space;
 		else
 		{
-			if (flags.dot >= (int)ft_strlen(type->nb))
-				type->len_space = (flags.pad - (flags.dot + ft_strlen(type->sign)));
-			else if (flags.pad >= type->len_d)
-				type->len_space = (flags.pad - type->len_d);
+			if (f.dot >= (int)ft_strlen(t->nb))
+				t->len_space = (f.pad - (f.dot + ft_strlen(t->sign)));
+			else if (f.pad >= t->len_d)
+				t->len_space = (f.pad - t->len_d);
 		}
 	}
-	type->space = ft_strset(' ', type->len_space);
+	t->space = ft_strset(' ', t->len_space);
 }
 
-void	u_fill_zero(t_conv *type, t_flags flags)
+void	u_fill_zero(t_conv *t, t_flags f)
 {
-	if (flags.dot > flags.pad)
+	if (f.dot > f.pad)
 	{
-		flags.pad = (flags.dot > flags.pad) ? flags.dot : flags.pad;
-		if (flags.pad > type->len_d)
-			type->len_zero = flags.pad - type->len_d;
+		f.pad = (f.dot > f.pad) ? f.dot : f.pad;
+		if (f.pad > t->len_d)
+			t->len_zero = f.pad - t->len_d;
 	}
-	else if (flags.pad >= flags.dot)
+	else if (f.pad >= f.dot)
 	{
-		if ((flags.dot) > type->len_d)
-			type->len_zero = flags.dot - type->len_d;
+		if ((f.dot) > t->len_d)
+			t->len_zero = f.dot - t->len_d;
 	}
-	type->zero = ft_strset('0', type->len_zero);
+	t->zero = ft_strset('0', t->len_zero);
 }
 
-void	nb_sign_u(t_conv *type, t_flags flags)
+void	nb_sign_u(t_conv *t, t_flags f)
 {
-	type->nb = ft_litoa(type->u);
-	if (type->u > 0 && flags.plus == 1)
-		type->sign = "";
-	else if (flags.space == 1)
-		type->sign = "";
-	type->len_d = ft_strlen(type->nb) + ft_strlen(type->sign);
+	t->nb = ft_litoa(t->u);
+	if (t->u > 0 && f.plus == 1)
+		t->sign = "";
+	else if (f.space == 1)
+		t->sign = "";
+	t->len_d = ft_strlen(t->nb) + ft_strlen(t->sign);
 }
 
-void	conv_u(t_conv *type, t_flags flags)
+void	conv_u(t_conv *t, t_flags f)
 {
-	init(type);
-	nb_sign_u(type, flags);
-	if (flags.pre == 0)
-		fill_nodot(type, flags);
+	init(t);
+	nb_sign_u(t, f);
+	if (f.pre == 0)
+		fill_nodot(t, f);
 	else
 	{
-		fill_zero(type, flags);
-		fill_space(type, flags);
+		fill_zero(t, f);
+		fill_space(t, f);
 	}
-	join(type, flags);
-	type->len_return = (int)ft_strlen(type->str);
+	join(t, f);
+	t->len_return = (int)ft_strlen(t->str);
 }

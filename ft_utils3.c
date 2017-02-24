@@ -31,7 +31,7 @@ char	*revert_str(char *str, int i)
 	return (tmp);
 }
 
-void	ft_hexa(t_conv *type)
+void	ft_hexa(t_conv *t)
 {
 	int					mod;
 	int					i;
@@ -40,25 +40,25 @@ void	ft_hexa(t_conv *type)
 
 	mod = 0;
 	s = "0123456789abcdef";
-	nb = type->u;
+	nb = t->u;
 	i = 0;
 	if (nb == 0)
-		type->nb = ft_strdup("0");
+		t->nb = ft_strdup("0");
 	else
 	{
-		type->nb = ft_strnew(22);
+		t->nb = ft_strnew(22);
 		while (nb > 0)
 		{
 			mod = (nb % 16);
-			type->nb[i] = s[mod];
+			t->nb[i] = s[mod];
 			i++;
 			nb /= 16;
 		}
-		type->nb = revert_str(type->nb, i);
+		t->nb = revert_str(t->nb, i);
 	}
 }
 
-void	ft_octal(t_conv *type)
+void	ft_octal(t_conv *t)
 {
 	int					mod;
 	int					i;
@@ -68,38 +68,38 @@ void	ft_octal(t_conv *type)
 	mod = 0;
 	i = 0;
 	s = "01234567";
-	nb = type->u;
-	if (type->u == 0)
-		type->nb = ft_strdup("0");
+	nb = t->u;
+	if (t->u == 0)
+		t->nb = ft_strdup("0");
 	else
 	{
-		type->nb = ft_strnew(22);
+		t->nb = ft_strnew(22);
 		while (nb > 0)
 		{
 			mod = (nb % 8);
-			type->nb[i] = s[mod];
+			t->nb[i] = s[mod];
 			i++;
 			nb /= 8;
 		}
-		type->nb = revert_str(type->nb, i);
+		t->nb = revert_str(t->nb, i);
 	}
 }
 
-void	ft_hashtag(t_conv *type, t_flags flags)
+void	ft_hashtag(t_conv *t, t_flags f)
 {
-	if (flags.hash == 1)
+	if (f.hash == 1)
 	{
-		if (type->conv == 'x' || type->conv == 'X')
+		if (t->conv == 'x' || t->conv == 'X')
 		{
-			if (type->u > 0)
-				type->sign = "0x";
+			if (t->u > 0)
+				t->sign = "0x";
 			else
-				type->sign = "";
+				t->sign = "";
 		}
-		else if (type->conv == 'o' && type->u > 0)
-			type->sign = "0";
-		else if (type->conv == 'o' && flags.hash == 1 && flags.pre == 1)
-			type->sign = "0";
-		type->len_d += (int)ft_strlen(type->sign);
+		else if (t->conv == 'o' && t->u > 0)
+			t->sign = "0";
+		else if (t->conv == 'o' && f.hash == 1 && f.pre == 1)
+			t->sign = "0";
+		t->len_d += (int)ft_strlen(t->sign);
 	}
 }

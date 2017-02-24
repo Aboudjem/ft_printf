@@ -12,13 +12,13 @@
 
 #include "ft_printf.h"
 
-void	s_fill_space(t_conv *type, t_flags flags)
+void	s_fill_space(t_conv *t, t_flags f)
 {
-	if (flags.pad > (int)ft_strlen(type->str))
-		type->len_space = flags.pad - (int)ft_strlen(type->str);
+	if (f.pad > (int)ft_strlen(t->str))
+		t->len_space = f.pad - (int)ft_strlen(t->str);
 	else
-		type->len_space = 0;
-	type->space = ft_strset(' ', type->len_space);
+		t->len_space = 0;
+	t->space = ft_strset(' ', t->len_space);
 }
 
 int		len_c(unsigned int c)
@@ -34,42 +34,42 @@ int		len_c(unsigned int c)
 	return (0);
 }
 
-void	conv_wc(unsigned long int c, t_conv *type)
+void	conv_wc(unsigned long int c, t_conv *t)
 {
-	how_long(c, type);
+	how_long(c, t);
 	if (c == 0)
 	{
 		ft_putchar('\0');
-		ft_bzero(type->str, 1);
-		type->len_return = 1;
+		ft_bzero(t->str, 1);
+		t->len_return = 1;
 	}
 	else
-		type->len_return = len_c(c);
+		t->len_return = len_c(c);
 }
 
-void	conv_ws(t_conv *type, t_flags flags)
+void	conv_ws(t_conv *t, t_flags f)
 {
 	int		i;
 	char	*tmp;
 
 	i = 0;
 	tmp = ft_strdup("");
-	type->len_return = 0;
-	if (!type->w || ft_wstrcmp(type->w, L"(null)") == 0)
+	t->len_return = 0;
+	if (!t->w || ft_wstrcmp(t->w, L"(null)") == 0)
 	{
-		type->len_return = 6;
-		type->str = ft_strdup("(null)");
+		t->len_return = 6;
+		t->str = ft_strdup("(null)");
 	}
 	else
 	{
-		while (type->w[i] != '\0')
+		while (t->w[i] != '\0')
 		{
-			conv_wc(type->w[i], type);
-			tmp = ft_strjoin_free(&tmp, &type->str, 0);
+			conv_wc(t->w[i], t);
+			tmp = ft_strjoin_free(&tmp, &t->str, 0);
 			i++;
 		}
-		type->str = ft_strdup(tmp);
-		s_join(type, flags);
-		type->len_return = (int)ft_strlen(type->str);
+		t->str = ft_strdup(tmp);
+		s_join(t, f);
+		t->len_return = (int)ft_strlen(t->str);
 	}
 }

@@ -12,41 +12,41 @@
 
 #include "ft_printf.h"
 
-void	conv_x(t_conv *type, t_flags flags)
+void	conv_x(t_conv *t, t_flags f)
 {
-	init(type);
-	ft_hashtag(type, flags);
-	ft_hexa(type);
-	type->len_d += ft_strlen(type->nb);
-	if (flags.pre == 0)
-		fill_nodot(type, flags);
+	init(t);
+	ft_hashtag(t, f);
+	ft_hexa(t);
+	t->len_d += ft_strlen(t->nb);
+	if (f.pre == 0)
+		fill_nodot(t, f);
 	else
 	{
-		flags = handle_d(flags);
-		fill_zero(type, flags);
-		fill_space(type, flags);
+		f = handle_d(f);
+		fill_zero(t, f);
+		fill_space(t, f);
 	}
-	join(type, flags);
-	if (type->conv == 'X')
-		ft_strtoupper(type->str);
-	type->len_return = (int)ft_strlen(type->str);
+	join(t, f);
+	if (t->conv == 'X')
+		ft_strtoupper(t->str);
+	t->len_return = (int)ft_strlen(t->str);
 }
 
-void	conv_o(t_conv *type, t_flags flags)
+void	conv_o(t_conv *t, t_flags f)
 {
-	init(type);
-	ft_hashtag(type, flags);
-	ft_octal(type);
-	type->len_d += ft_strlen(type->nb);
-	if (flags.pre == 0)
-		fill_nodot(type, flags);
+	init(t);
+	ft_hashtag(t, f);
+	ft_octal(t);
+	t->len_d += ft_strlen(t->nb);
+	if (f.pre == 0)
+		fill_nodot(t, f);
 	else
 	{
-		flags = handle_d(flags);
-		u_fill_zero(type, flags);
-		fill_space(type, flags);
+		f = handle_d(f);
+		u_fill_zero(t, f);
+		fill_space(t, f);
 	}
-	join(type, flags);
-	type->len_return = (int)ft_strlen(type->str);
+	join(t, f);
+	t->len_return = (int)ft_strlen(t->str);
 }
 

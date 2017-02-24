@@ -14,107 +14,107 @@
 
 
 
-void	fill_nodot(t_conv *type, t_flags flags)
+void	fill_nodot(t_conv *t, t_flags f)
 {
-	if (flags.pre == 0)
+	if (f.pre == 0)
 	{
-		if (flags.zero == 0 && flags.pad > type->len_d)
-			type->space = ft_strset(' ', flags.pad - type->len_d);
-		else if (flags.zero == 1 && flags.pad > type->len_d)
-			type->zero = ft_strset('0', flags.pad - type->len_d);
+		if (f.zero == 0 && f.pad > t->len_d)
+			t->space = ft_strset(' ', f.pad - t->len_d);
+		else if (f.zero == 1 && f.pad > t->len_d)
+			t->zero = ft_strset('0', f.pad - t->len_d);
 	}
 }
 
-void	fill_space(t_conv *type, t_flags flags)
+void	fill_space(t_conv *t, t_flags f)
 {
-	if (flags.dot > flags.pad && (flags.pad >= type->len_d))
-		type->len_space = 0;
-	else if (flags.pad >= flags.dot)
+	if (f.dot > f.pad && (f.pad >= t->len_d))
+		t->len_space = 0;
+	else if (f.pad >= f.dot)
 	{
-		if (flags.dot > type->len_d && ((flags.pad - flags.dot) > 0))
-			type->len_space = ((flags.pad - flags.dot) - ft_strlen(type->sign));
-		else if (flags.pad == flags.dot)
-			type->space = type->space;
+		if (f.dot > t->len_d && ((f.pad - f.dot) > 0))
+			t->len_space = ((f.pad - f.dot) - ft_strlen(t->sign));
+		else if (f.pad == f.dot)
+			t->space = t->space;
 		else
 		{
-			if (flags.dot >= (int)ft_strlen(type->nb))
-				type->len_space = (flags.pad - (flags.dot + ft_strlen(type->sign)));
-			else if (flags.pad >= type->len_d)
-				type->len_space = (flags.pad - type->len_d);
+			if (f.dot >= (int)ft_strlen(t->nb))
+				t->len_space = (f.pad - (f.dot + ft_strlen(t->sign)));
+			else if (f.pad >= t->len_d)
+				t->len_space = (f.pad - t->len_d);
 		}
 	}
-	type->space = ft_strset(' ', type->len_space);
+	t->space = ft_strset(' ', t->len_space);
 }
 
-void	fill_zero(t_conv *type, t_flags flags)
+void	fill_zero(t_conv *t, t_flags f)
 {
-	if (flags.dot > flags.pad)
+	if (f.dot > f.pad)
 	{
-		flags.pad = (flags.dot > flags.pad) ? flags.dot : flags.pad;
-		if (flags.pad > (int)ft_strlen(type->nb))
-			type->len_zero = flags.pad - (ft_strlen(type->nb));
+		f.pad = (f.dot > f.pad) ? f.dot : f.pad;
+		if (f.pad > (int)ft_strlen(t->nb))
+			t->len_zero = f.pad - (ft_strlen(t->nb));
 	}
-	else if (flags.pad >= flags.dot)
+	else if (f.pad >= f.dot)
 	{
-		if ((flags.dot) > (int)ft_strlen(type->nb))
-			type->len_zero = flags.dot - ft_strlen(type->nb);
+		if ((f.dot) > (int)ft_strlen(t->nb))
+			t->len_zero = f.dot - ft_strlen(t->nb);
 	}
-	type->zero = ft_strset('0', type->len_zero);
+	t->zero = ft_strset('0', t->len_zero);
 }
 
-char	*handle_zero(t_conv type, t_flags flags)
+char	*handle_zero(t_conv t, t_flags f)
 {
 	char *s;
 
-	if (flags.pre == 1)
+	if (f.pre == 1)
 	{
-		type.nb = ft_strdup("");
-		flags = handle_d(flags);
-		fill_zero(&type, flags);
-		fill_space(&type, flags);
-		s = ft_strjoin(type.space, type.zero);
-		s = ft_strjoin_free(&s, &type.nb, 1);
-		return (ft_strjoin(s, type.sign));
+		t.nb = ft_strdup("");
+		f = handle_d(f);
+		fill_zero(&t, f);
+		fill_space(&t, f);
+		s = ft_strjoin(t.space, t.zero);
+		s = ft_strjoin_free(&s, &t.nb, 1);
+		return (ft_strjoin(s, t.sign));
 	}
-	return (type.nb);
+	return (t.nb);
 }
-void	join_neg(t_conv *type, t_flags flags)
+void	join_neg(t_conv *t, t_flags f)
 {
 		char *s;
 		
-		if (flags.negdot == 1)
+		if (f.negdot == 1)
 		{
-			if (ft_strlen(type->zero) > 0)
-				type->space = ft_strset(' ',
-						(ft_strlen(type->zero)) - ft_strlen(type->sign));
-			else if (flags.dot != 0)
-				type->space = ft_strdup("");
-			s = ft_strjoin(type->sign, type->nb);
-			type->str = ft_strjoin_free(&s, &type->space, 1);
+			if (ft_strlen(t->zero) > 0)
+				t->space = ft_strset(' ',
+						(ft_strlen(t->zero)) - ft_strlen(t->sign));
+			else if (f.dot != 0)
+				t->space = ft_strdup("");
+			s = ft_strjoin(t->sign, t->nb);
+			t->str = ft_strjoin_free(&s, &t->space, 1);
 		}
-		else if (flags.neg == 1)
+		else if (f.neg == 1)
 		{
-			s = ft_strjoin(type->sign, type->zero);
-			s = ft_strjoin_free(&s, &type->nb, 1);
-			type->str = ft_strjoin_free(&s, &type->space, 1);
+			s = ft_strjoin(t->sign, t->zero);
+			s = ft_strjoin_free(&s, &t->nb, 1);
+			t->str = ft_strjoin_free(&s, &t->space, 1);
 		}
 }
-void	join(t_conv *type, t_flags flags)
+void	join(t_conv *t, t_flags f)
 {
 	char *s;
 
-	if (((type->d == 0 && flags.d_used == 1) ||
-		(type->u == 0 && flags.u_used == 1)) && flags.pre == 1)
-		type->str = handle_zero(*type, flags);
+	if (((t->d == 0 && f.d_used == 1) ||
+		(t->u == 0 && f.u_used == 1)) && f.pre == 1)
+		t->str = handle_zero(*t, f);
 	else
 	{
-		if (flags.negdot == 1 || flags.neg == 1)
-			join_neg(type, flags);		
+		if (f.negdot == 1 || f.neg == 1)
+			join_neg(t, f);		
 		else
 		{
-			s = ft_strjoin(type->space, type->sign);
-			s = ft_strjoin_free(&s, &type->zero, 1);
-			type->str = ft_strjoin_free(&s, &type->nb, 1);
+			s = ft_strjoin(t->space, t->sign);
+			s = ft_strjoin_free(&s, &t->zero, 1);
+			t->str = ft_strjoin_free(&s, &t->nb, 1);
 		}
 	}
 }

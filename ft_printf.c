@@ -12,223 +12,223 @@
 
 #include "ft_printf.h"
 
-void	len_return(t_conv *type, t_flags flags)
+void	len_return(t_conv *t, t_flags f)
 {
-	type->len_return = 0;
-	if (type->conv == 's')
-		conv_s(type, flags);
-	else if (type->conv == 'S')
-		conv_ws(type, flags);
-	else if (type->conv == 'p')
-		conv_p(type, flags);
-	else if (type->conv == 'd' || type->conv == 'i')
-		conv_d(type, flags);
-	else if (type->conv == 'c')
-		conv_c(type, flags);
-	else if (type->conv == 'C')
-		conv_wc((unsigned long int)type->c, type);
-	else if (type->conv == 'x' || type->conv == 'X')
-		conv_x(type, flags);
-	else if (type->conv == 'o' || type->conv == 'O')
-		conv_o(type, flags);
-	else if (type->conv == 'u' || type->conv == 'U')
-		conv_u(type, flags);
-	else if (type->conv == 'D')
-		conv_d(type, flags);
-	else if (type->conv == '%')
-		conv_percent(type, flags);
-	if (type->str && type->str != NULL)
+	t->len_return = 0;
+	if (t->conv == 's')
+		conv_s(t, f);
+	else if (t->conv == 'S')
+		conv_ws(t, f);
+	else if (t->conv == 'p')
+		conv_p(t, f);
+	else if (t->conv == 'd' || t->conv == 'i')
+		conv_d(t, f);
+	else if (t->conv == 'c')
+		conv_c(t, f);
+	else if (t->conv == 'C')
+		conv_wc((unsigned long int)t->c, t);
+	else if (t->conv == 'x' || t->conv == 'X')
+		conv_x(t, f);
+	else if (t->conv == 'o' || t->conv == 'O')
+		conv_o(t, f);
+	else if (t->conv == 'u' || t->conv == 'U')
+		conv_u(t, f);
+	else if (t->conv == 'D')
+		conv_d(t, f);
+	else if (t->conv == '%')
+		conv_percent(t, f);
+	if (t->str && t->str != NULL)
 	{
-		ft_putstr(type->str);
-		ft_strdel(&type->str);
+		ft_putstr(t->str);
+		ft_strdel(&t->str);
 	}
 }
 
-void	modif_length(t_flags *flags, t_conv *type)
+void	modif_length(t_flags *f, t_conv *t)
 {
-	if (type->conv == 'c' && flags->l == 1)
+	if (t->conv == 'c' && f->l == 1)
 	{
-		type->conv = 'C';
-		flags->l = 0;
+		t->conv = 'C';
+		f->l = 0;
 	}
-	else if (type->conv == 's' && flags->l == 1)
+	else if (t->conv == 's' && f->l == 1)
 	{
-		type->conv = 'S';
-		flags->l = 0;
+		t->conv = 'S';
+		f->l = 0;
 	}
-	else if (type->conv == 'D')
+	else if (t->conv == 'D')
 	{
-		type->conv = 'd';
-		flags->l = 1;
-		flags->hh = 0;
-		flags->h = 0;
+		t->conv = 'd';
+		f->l = 1;
+		f->hh = 0;
+		f->h = 0;
 	}
-	else if (type->conv == 'U')
+	else if (t->conv == 'U')
 	{
-		type->conv = 'u';
-		flags->l = 1;
-		flags->hh = 0;
-		flags->h = 0;
+		t->conv = 'u';
+		f->l = 1;
+		f->hh = 0;
+		f->h = 0;
 	}
-	else if (type->conv == 'O')
+	else if (t->conv == 'O')
 	{
-		type->conv = 'o';
-		flags->l = 1;
-		flags->hh = 0;
-		flags->h = 0;
+		t->conv = 'o';
+		f->l = 1;
+		f->hh = 0;
+		f->h = 0;
 	}
-	else if (type->conv == 'C')
+	else if (t->conv == 'C')
 	{
-		type->conv = 'C';
-		flags->hh = 0;
-		flags->h = 0;
+		t->conv = 'C';
+		f->hh = 0;
+		f->h = 0;
 	}
 }
 
-void	get_length(t_flags *flags, t_conv *type)
+void	get_length(t_flags *f, t_conv *t)
 {
-	flags->d_used = 1;
-	if (flags->h == 1)
-		type->d = (short)va_arg(type->arguments, long long int);
-	else if (flags->hh == 1 && flags->h == 0)
-		type->d = (char)va_arg(type->arguments, long long int);
-	else if (flags->ll == 1 || flags->l == 1)
-		type->d = (long long)va_arg(type->arguments, long long);
-	else if (flags->j == 1)
-		type->d = (intmax_t)va_arg(type->arguments, long long);
-	else if (flags->z == 1)
-		type->d = (ssize_t)va_arg(type->arguments, long long);
+	f->d_used = 1;
+	if (f->h == 1)
+		t->d = (short)va_arg(t->arguments, long long int);
+	else if (f->hh == 1 && f->h == 0)
+		t->d = (char)va_arg(t->arguments, long long int);
+	else if (f->ll == 1 || f->l == 1)
+		t->d = (long long)va_arg(t->arguments, long long);
+	else if (f->j == 1)
+		t->d = (intmax_t)va_arg(t->arguments, long long);
+	else if (f->z == 1)
+		t->d = (ssize_t)va_arg(t->arguments, long long);
 	else
-		type->d = (int)va_arg(type->arguments, long long int);
+		t->d = (int)va_arg(t->arguments, long long int);
 }
 
-void	get_length_u(t_flags *flags, t_conv *type)
+void	get_length_u(t_flags *f, t_conv *t)
 {
-	flags->u_used = 1;
-	if (flags->h == 1)
-		type->u = (unsigned short)va_arg(type->arguments, unsigned long long int);
-	else if (flags->hh == 1)
-		type->u = (unsigned char)va_arg(type->arguments, unsigned long long int);
-	else if (flags->l == 1 || flags->ll == 1)
-		type->u = (unsigned long)va_arg(type->arguments, unsigned long long int);
-	else if (flags->j == 1)
-		type->u = (uintmax_t)va_arg(type->arguments, unsigned long long);
-	else if (flags->z == 1)
-		type->u = (size_t)va_arg(type->arguments, unsigned long long);
+	f->u_used = 1;
+	if (f->h == 1)
+		t->u = (unsigned short)va_arg(t->arguments, unsigned long long int);
+	else if (f->hh == 1)
+		t->u = (unsigned char)va_arg(t->arguments, unsigned long long int);
+	else if (f->l == 1 || f->ll == 1)
+		t->u = (unsigned long)va_arg(t->arguments, unsigned long long int);
+	else if (f->j == 1)
+		t->u = (uintmax_t)va_arg(t->arguments, unsigned long long);
+	else if (f->z == 1)
+		t->u = (size_t)va_arg(t->arguments, unsigned long long);
 	else
-		type->u = (unsigned int)va_arg(type->arguments, unsigned long long int);
+		t->u = (unsigned int)va_arg(t->arguments, unsigned long long int);
 }
 
-t_conv	which_conv(const char *s, int i, t_conv type, t_flags flags)
+t_conv	which_conv(const char *s, int i, t_conv t, t_flags f)
 {
-	type.count = 0;
+	t.count = 0;
 	if (s[i] && s[i + 1])
 	{
 		i++;
-		type.count++;
+		t.count++;
 	}
 	while (next_conv(s, i) == 0 && s[i + 1])
 	{
-		type.count++;
+		t.count++;
 		i++;
 	}
 	if (next_conv(s, i) == 1)
-		type.count--;
-	type.conv = next_conv(s, i);
-	if ((int)ft_strlen(s) > 1 && (ft_isalpha(type.conv) == 1 || type.conv == '%'))
+		t.count--;
+	t.conv = next_conv(s, i);
+	if ((int)ft_strlen(s) > 1 && (ft_isalpha(t.conv) == 1 || t.conv == '%'))
 	{
-		modif_length(&flags, &type);
-		if (type.conv == 's')
-			type.s = (char *)va_arg(type.arguments, char *);
-		else if (type.conv == 'S')
-			type.w = (wchar_t *)va_arg(type.arguments, wchar_t*);
-		else if (type.conv == 'p')
-			type.p = (void *)va_arg(type.arguments, void *);
-		else if (type.conv == 'd' || type.conv == 'i')
-			get_length(&flags, &type);
-		else if (type.conv == 'u')
-			get_length_u(&flags, &type);
-		else if (type.conv == 'c' || type.conv == 'C')
-			type.c = (unsigned long int)va_arg(type.arguments, unsigned long int);
-		else if (type.conv == 'o' || type.conv == 'x' || type.conv == 'X')
-			get_length_u(&flags, &type);
-		else if (type.conv == 'O')
-			type.u = (unsigned long int)va_arg(type.arguments, unsigned long long int);
-		else if (type.conv != '%')
-			get_length_u(&flags, &type);
-		len_return(&type, flags);
+		modif_length(&f, &t);
+		if (t.conv == 's')
+			t.s = (char *)va_arg(t.arguments, char *);
+		else if (t.conv == 'S')
+			t.w = (wchar_t *)va_arg(t.arguments, wchar_t*);
+		else if (t.conv == 'p')
+			t.p = (void *)va_arg(t.arguments, void *);
+		else if (t.conv == 'd' || t.conv == 'i')
+			get_length(&f, &t);
+		else if (t.conv == 'u')
+			get_length_u(&f, &t);
+		else if (t.conv == 'c' || t.conv == 'C')
+			t.c = (unsigned long int)va_arg(t.arguments, unsigned long int);
+		else if (t.conv == 'o' || t.conv == 'x' || t.conv == 'X')
+			get_length_u(&f, &t);
+		else if (t.conv == 'O')
+			t.u = (unsigned long int)va_arg(t.arguments, unsigned long long int);
+		else if (t.conv != '%')
+			get_length_u(&f, &t);
+		len_return(&t, f);
 	}
 	else
-		no_conv(s, i, &type, flags);
-	return (type);
+		no_conv(s, i, &t, f);
+	return (t);
 }
 
-t_flags	which_length(const char *s, int i, t_flags flags)
+t_flags	which_length(const char *s, int i, t_flags f)
 {
 	if (s[i] == 'l' && s[i + 1] == 'l')
-		flags.ll = 1;
-	else if (s[i] == 'l' && s[i + 1] != 'l' && flags.ll == 0)
-		flags.l = 1;
+		f.ll = 1;
+	else if (s[i] == 'l' && s[i + 1] != 'l' && f.ll == 0)
+		f.l = 1;
 	else if (s[i] == 'j')
-		flags.j = 1;
+		f.j = 1;
 	else if (s[i] == 'z')
-		flags.z = 1;
+		f.z = 1;
 	if (s[i] == 'h' && s[i + 1] == 'h')
-		flags.hh = 1;
-	else if (s[i] == 'h' && s[i + 1] != 'h' && flags.hh == 0)
-		flags.h = 1;
-	return (flags);
+		f.hh = 1;
+	else if (s[i] == 'h' && s[i + 1] != 'h' && f.hh == 0)
+		f.h = 1;
+	return (f);
 }
 
-t_flags	which_flags(const char *s, int i, t_conv type)
+t_flags	which_flags(const char *s, int i, t_conv t)
 {
-	t_flags	flags;
+	t_flags	f;
 
-	init_flags(&flags);
-	type.count = 0;
+	init_flags(&f);
+	t.count = 0;
 	i++;
 	while (is_flag(s, i) == 1 && s[i] != '\0')
 	{
-		flags.space = (s[i] == ' ') ? 1 : flags.space;
-		flags.neg = (s[i] == '-') ? 1 : flags.neg;
-		flags.plus = (s[i] == '+') ? 1 : flags.plus;
-		flags.hash = (s[i] == '#') ? 1 : flags.hash;
-		if (s[i] >= '0' && s[i] <= '9' && flags.pre == 0)
+		f.space = (s[i] == ' ') ? 1 : f.space;
+		f.neg = (s[i] == '-') ? 1 : f.neg;
+		f.plus = (s[i] == '+') ? 1 : f.plus;
+		f.hash = (s[i] == '#') ? 1 : f.hash;
+		if (s[i] >= '0' && s[i] <= '9' && f.pre == 0)
 		{
-			get_padding(s, i, &flags);
-			i += flags.len_pad;
+			get_padding(s, i, &f);
+			i += f.len_pad;
 		}
 		if (s[i] == '.')
 		{
-			get_precision(s, i, &flags);
-			i += flags.len_pre;
+			get_precision(s, i, &f);
+			i += f.len_pre;
 		}
-		flags = which_length(s, i, flags);
-		type.count++;
+		f = which_length(s, i, f);
+		t.count++;
 		i++;
 	}
-	return (flags);
+	return (f);
 }
 
 int		ft_printf(const char *format, ...)
 {
 	int		i;
 	int		j;
-	t_conv	type;
-	t_flags	flags;
+	t_conv	t;
+	t_flags	f;
 
 	i = 0;
 	j = 0;
-	va_start(type.arguments, format);
+	va_start(t.arguments, format);
 	while (format[i] != '\0' && i <= (int)ft_strlen(format))
 	{
 		if (format[i] == '%')
 		{
-			init(&type);
-			flags = which_flags(format, i, type);
-			type = which_conv(format, i, type, flags);
-			j += type.len_return;
-			i += type.count + 1;
+			init(&t);
+			f = which_flags(format, i, t);
+			t = which_conv(format, i, t, f);
+			j += t.len_return;
+			i += t.count + 1;
 		}
 		else
 		{
@@ -237,6 +237,6 @@ int		ft_printf(const char *format, ...)
 			j++;
 		}
 	}
-	va_end(type.arguments);
+	va_end(t.arguments);
 	return (j);
 }
