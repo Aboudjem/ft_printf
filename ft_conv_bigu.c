@@ -12,6 +12,43 @@
 
 #include "ft_printf.h"
 
+void	u_fill_space(t_conv *type, t_flags flags)
+{
+	if (flags.dot > flags.pad && (flags.pad >= type->len_d))
+		type->len_space = 0;
+	else if (flags.pad >= flags.dot)
+	{
+		if (flags.dot > type->len_d && ((flags.pad - flags.dot) > 0))
+			type->len_space = ((flags.pad - flags.dot) - ft_strlen(type->sign));
+		else if (flags.pad == flags.dot)
+			type->space = type->space;
+		else
+		{
+			if (flags.dot >= (int)ft_strlen(type->nb))
+				type->len_space = (flags.pad - (flags.dot + ft_strlen(type->sign)));
+			else if (flags.pad >= type->len_d)
+				type->len_space = (flags.pad - type->len_d);
+		}
+	}
+	type->space = ft_strset(' ', type->len_space);
+}
+
+void	u_fill_zero(t_conv *type, t_flags flags)
+{
+	if (flags.dot > flags.pad)
+	{
+		flags.pad = (flags.dot > flags.pad) ? flags.dot : flags.pad;
+		if (flags.pad > type->len_d)
+			type->len_zero = flags.pad - type->len_d;
+	}
+	else if (flags.pad >= flags.dot)
+	{
+		if ((flags.dot) > type->len_d)
+			type->len_zero = flags.dot - type->len_d;
+	}
+	type->zero = ft_strset('0', type->len_zero);
+}
+
 void	nb_sign_u(t_conv *type, t_flags flags)
 {
 	type->nb = ft_litoa(type->u);

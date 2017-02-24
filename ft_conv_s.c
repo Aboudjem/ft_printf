@@ -26,7 +26,6 @@ void	conv_s(t_conv *type, t_flags flags)
 		else if (flags.zero == 1 && flags.pad)
 			type->str = ft_strset('0', flags.pad);
 		ft_putstr(type->str);
-		// ft_putchar('\0');
 		type->len_return = ft_strlen(type->str);
 		type->str = ft_strdup("");
 	}

@@ -28,9 +28,9 @@ void	len_return(t_conv *type, t_flags flags)
 	else if (type->conv == 'C')
 		conv_wc((unsigned long int)type->c, type);
 	else if (type->conv == 'x' || type->conv == 'X')
-		conv_x_bigx(type, flags);
+		conv_x(type, flags);
 	else if (type->conv == 'o' || type->conv == 'O')
-		conv_o_bigo(type, flags);
+		conv_o(type, flags);
 	else if (type->conv == 'u' || type->conv == 'U')
 		conv_u(type, flags);
 	else if (type->conv == 'D')

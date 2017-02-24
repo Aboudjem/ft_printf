@@ -104,8 +104,8 @@ char			*handle_zero(t_conv type, t_flags flags);
 /*
  ** ft_conv_uoxX.c
 */
-void			conv_x_bigx(t_conv *type, t_flags flags);
-void			conv_o_bigo(t_conv *type, t_flags flags);
+void			conv_x(t_conv *type, t_flags flags);
+void			conv_o(t_conv *type, t_flags flags);
 char			*revert_str(char *str, int i);
 void			ft_hexa(t_conv *type);
 void			ft_octal(t_conv *type);
@@ -116,6 +116,8 @@ void			ft_hashtag(t_conv *type, t_flags flags);
 */
 void			nb_sign_u(t_conv *type, t_flags flags);
 void			conv_u(t_conv *type, t_flags flags);
+void			u_fill_space(t_conv *type, t_flags flags);
+void			u_fill_zero(t_conv *type, t_flags flags);
 /*
  ** ft_conv_p.c
 */
@@ -130,7 +132,6 @@ void			three_bytes(unsigned long int c, t_conv *type);
 void			four_bytes(unsigned long int c, t_conv *type);
 void			how_long(unsigned long int c, t_conv *type);
 void			how_long2(unsigned long int c, t_conv *type);
-
 int				len_c(unsigned int c);
 void			conv_wc(unsigned long int c, t_conv *type);
 void			conv_ws(t_conv *type, t_flags flags);
