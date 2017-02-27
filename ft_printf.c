@@ -6,7 +6,7 @@
 /*   By: aboudjem <aboudjem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/11 18:57:42 by aboudjem          #+#    #+#             */
-/*   Updated: 2017/02/23 04:32:32 by plisieck         ###   ########.fr       */
+/*   Updated: 2017/02/27 22:26:41 by aboudjem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,20 @@ t_flags	which_flags(const char *s, int i, t_conv t)
 	}
 	return (f);
 }
+int		printstr(const char *s, int i, int j)
+{
+	int len;
+
+	len = 0;
+	while((s[i] != '%' &&  s[i] != '\0') && s[i] + 1)
+	{
+		j++;
+		i++;
+		len++;
+	}
+ft_putstr(ft_strsub(s, (i-len), len));
+return (len);
+}
 
 int		ft_printf(const char *format, ...)
 {
@@ -216,7 +230,9 @@ int		ft_printf(const char *format, ...)
 	int		j;
 	t_conv	t;
 	t_flags	f;
+	int len;
 
+	len = 0;
 	i = 0;
 	j = 0;
 	va_start(t.arguments, format);
@@ -232,9 +248,12 @@ int		ft_printf(const char *format, ...)
 		}
 		else
 		{
-			ft_putchar(format[i]);
-			i++;
-			j++;
+		//	ft_putchar(format[i]);
+			//i++;
+			//j++;
+			len = printstr(format, i, j);
+			i += len;
+			j += len;
 		}
 	}
 	va_end(t.arguments);
