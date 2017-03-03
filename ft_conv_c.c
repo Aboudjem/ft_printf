@@ -21,22 +21,15 @@ void	conv_c(t_conv *t, t_flags f)
 	t->str = ft_strdup(tmp);
 	s_fill_nodot(t, f);
 	if (t->c)
-	{
-		// t->str = ft_strnew(1);
-		// t->str[0] = t->c;
 		t->len_return = ft_strlen(t->str);
-	}
-	else if (t->c == 0 && (int)ft_strlen(t->str) > 0)
-	{
-		ft_putstr(t->str);
-		ft_putchar('\0');
-		t->len_return = 1 + (int)ft_strlen(t->str);
-		t->str = ft_strdup("");
-	}
 	else
 	{
-		ft_putchar('\0');
+	t->print = ft_strjoin(t->print, t->str);
+	write(1, t->print, ft_strlen(t->print) + 1);
+		t->len_return = ft_strlen(t->print);
+		if (t->c == 0 && f.champs == 0 && f.space == 0)
+			t->len_return += 1;
+	t->print = ft_strdup("");
 		t->str[0] = 0;
-		t->len_return = 1;
 	}
 }

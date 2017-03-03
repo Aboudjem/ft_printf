@@ -6,7 +6,7 @@
 /*   By: aboudjem <aboudjem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/11 23:12:24 by aboudjem          #+#    #+#             */
-/*   Updated: 2017/02/23 03:43:58 by plisieck         ###   ########.fr       */
+/*   Updated: 2017/03/02 00:35:07 by aboudjem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct	s_type
 	int						len_return;
 	char					conv;
 	char					*str;
+	char					*print;
 }				t_conv;
 
 typedef struct	s_flags

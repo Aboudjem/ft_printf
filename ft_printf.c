@@ -6,7 +6,7 @@
 /*   By: aboudjem <aboudjem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/11 18:57:42 by aboudjem          #+#    #+#             */
-/*   Updated: 2017/02/27 22:26:41 by aboudjem         ###   ########.fr       */
+/*   Updated: 2017/03/02 00:36:56 by aboudjem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	len_return(t_conv *t, t_flags f)
 		conv_percent(t, f);
 	if (t->str && t->str != NULL)
 	{
-		ft_putstr(t->str);
+		// ft_putstr(t->str);
+		t->print = ft_strjoin(t->print, t->str);
 		ft_strdel(&t->str);
 	}
 }
@@ -148,8 +149,11 @@ t_conv	which_conv(const char *s, int i, t_conv t, t_flags f)
 			get_length(&f, &t);
 		else if (t.conv == 'u')
 			get_length_u(&f, &t);
-		else if (t.conv == 'c' || t.conv == 'C')
+		else if (t.conv == 'c' || t.conv == 'C'){
+
 			t.c = (unsigned long int)va_arg(t.arguments, unsigned long int);
+
+		}
 		else if (t.conv == 'o' || t.conv == 'x' || t.conv == 'X')
 			get_length_u(&f, &t);
 		else if (t.conv == 'O')
@@ -209,18 +213,18 @@ t_flags	which_flags(const char *s, int i, t_conv t)
 	}
 	return (f);
 }
-int		printstr(const char *s, int i, int j)
+int		printstr(const char *s, int i, t_conv *t)
 {
 	int len;
 
 	len = 0;
 	while((s[i] != '%' &&  s[i] != '\0') && s[i] + 1)
 	{
-		j++;
 		i++;
 		len++;
 	}
-ft_putstr(ft_strsub(s, (i-len), len));
+t->print = ft_strjoin(t->print, ft_strsub(s, (i-len), len));
+	//ft_putstr(ft_strsub(s, (i-len), len));
 return (len);
 }
 
@@ -231,7 +235,7 @@ int		ft_printf(const char *format, ...)
 	t_conv	t;
 	t_flags	f;
 	int len;
-
+	t.print = ft_strdup("");
 	len = 0;
 	i = 0;
 	j = 0;
@@ -240,6 +244,7 @@ int		ft_printf(const char *format, ...)
 	{
 		if (format[i] == '%')
 		{
+			// printf("\n[%s]\n", t.print);
 			init(&t);
 			f = which_flags(format, i, t);
 			t = which_conv(format, i, t, f);
@@ -251,11 +256,13 @@ int		ft_printf(const char *format, ...)
 		//	ft_putchar(format[i]);
 			//i++;
 			//j++;
-			len = printstr(format, i, j);
+			len = printstr(format, i, &t);
 			i += len;
 			j += len;
 		}
 	}
+	write(1, t.print, (int)ft_strlen(t.print));
+//	ft_putstr(t.print);
 	va_end(t.arguments);
 	return (j);
 }

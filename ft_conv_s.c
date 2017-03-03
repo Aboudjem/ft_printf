@@ -25,7 +25,7 @@ void	conv_s(t_conv *t, t_flags f)
 			t->str = ft_strset(' ', f.pad);
 		else if (f.zero == 1 && f.pad)
 			t->str = ft_strset('0', f.pad);
-		ft_putstr(t->str);
+		t->print = ft_strjoin(t->print, t->str);
 		t->len_return = ft_strlen(t->str);
 		t->str = ft_strdup("");
 	}

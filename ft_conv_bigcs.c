@@ -47,7 +47,12 @@ void	s_fill_nodot2(t_conv *t)
 
 void	how_long(unsigned long int c, t_conv *t)
 {
-	if (MB_CUR_MAX == 1)
+	if (c == 0)
+	{
+		write(1, t->print, ft_strlen(t->print) + 1);
+		t->print = ft_strnew(1);
+	}
+	else if (MB_CUR_MAX == 1)
 		one_bytes(c, t);
 	else if (MB_CUR_MAX == 2)
 	{

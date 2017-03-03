@@ -83,6 +83,9 @@ void	ft_hexa_p(t_conv *t)
 void	conv_p(t_conv *t, t_flags f)
 {
 	ft_hexa_p(t);
+	if (t->p == 0 && (f.pre == 1 &&  f.dot == 0))
+		t->str = ft_strdup("");
+
 	t->sign = ft_strdup("0x");
 	if (f.pre == 1 && f.pad == 0 && t->u == 0 && f.dot == 0)
 		t->str = ft_strdup(t->sign);

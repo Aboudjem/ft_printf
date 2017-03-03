@@ -46,7 +46,7 @@ void	no_conv(const char *s, int i, t_conv *t, t_flags f)
 			k++;
 		t->str = ft_strsub(s, i, k - i);
 		noconv_join(t, f);
-		ft_putstr(t->str);
+		t->print = ft_strjoin(t->print, t->str);
 		t->count += (k - i);
 		t->len_return = (int)ft_strlen(t->str);
 	}
