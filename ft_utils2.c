@@ -23,7 +23,9 @@ void	get_padding(const char *s, int i, t_flags *f)
 	{
 		j++;
 		i++;
+
 	}
+
 	f->zero = (s[i] == '0') ? 1 : f->zero;
 	f->pad = ft_atoi(s + i);
 	while (ft_isdigit(s[i]) == 1)
@@ -31,22 +33,19 @@ void	get_padding(const char *s, int i, t_flags *f)
 		j++;
 		i++;
 	}
+	f->plus = (s[i] == '+') ? 1 : f->plus;
+	
 	f->neg = (s[i] == '-') ? 1 : f->neg;
 	f->len_pad = j;
 }
 
 void	get_precision(const char *s, int i, t_flags *f)
 {
-	int j;
-
-	j = 0;
 	f->pre = (s[i] == '.') ? 1 : f->pre;
 	i++;
 	f->negdot = (s[i] == '-') ? 1 : f->negdot;
 	f->dot = ft_atoi(s + i);
-	if (next_conv(s, i++) == 0)
-		j++;
-	f->len_pre = j + f->pre + f->negdot;
+	f->len_pre = i + f->pre + f->negdot;
 }
 
 int		is_flag(const char *s, int i)

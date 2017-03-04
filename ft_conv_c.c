@@ -26,10 +26,10 @@ void	conv_c(t_conv *t, t_flags f)
 	{
 	t->print = ft_strjoin(t->print, t->str);
 	write(1, t->print, ft_strlen(t->print) + 1);
-		t->len_return = ft_strlen(t->print);
-		if (t->c == 0 && f.champs == 0 && f.space == 0)
-			t->len_return += 1;
+		t->len_return = ft_strlen(t->str) + 1;
+		if (t->len_return == 0)
+			t->len_return++;
 	t->print = ft_strdup("");
-		t->str[0] = 0;
+	t->str = ft_strdup(""); 	
 	}
 }

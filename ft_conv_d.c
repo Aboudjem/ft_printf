@@ -39,6 +39,7 @@ void	nb_sign(t_conv *t, t_flags f)
 
 void	conv_d(t_conv *t, t_flags f)
 {
+	// printf("F[%d]", f.plus);
 	init(t);
 	f = handle_d(f);
 	nb_sign(t, f);

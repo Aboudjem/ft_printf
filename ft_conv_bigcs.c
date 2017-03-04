@@ -17,7 +17,8 @@ void	s_fill_nodot(t_conv *t, t_flags f)
 	int len;
 
 	len = (int)ft_strlen(t->str);
-	if (len == 0)
+
+	if (len == 0 && t->conv != 's')// && f.pad == 0)// && t->conv != 'c')
 		len++;
 	if (f.pre == 0 || t->conv == 'c' || t->conv == 's')
 	{
@@ -106,6 +107,9 @@ if (f.pre == 1 && f.dot == 0)
 		if (f.dot < (int)ft_strlen(t->str))
 			t->str = ft_strsub(t->str, 0, i);
 		s_fill_space(t, f);
-		t->str = ft_strjoin(t->space, t->str);
+		if (f.neg == 1)
+			t->str = ft_strjoin(t->str, t->space);
+		else
+			t->str = ft_strjoin(t->space, t->str);
 	}
 }

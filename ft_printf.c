@@ -193,6 +193,7 @@ t_flags	which_flags(const char *s, int i, t_conv t)
 	i++;
 	while (is_flag(s, i) == 1 && s[i] != '\0')
 	{
+
 		f.space = (s[i] == ' ') ? 1 : f.space;
 		f.neg = (s[i] == '-') ? 1 : f.neg;
 		f.plus = (s[i] == '+') ? 1 : f.plus;
@@ -205,12 +206,18 @@ t_flags	which_flags(const char *s, int i, t_conv t)
 		if (s[i] == '.')
 		{
 			get_precision(s, i, &f);
+
+		// printf("[%d]", i);
+
 			i += f.len_pre;
+		// printf("[%d]", i);
+
 		}
 		f = which_length(s, i, f);
 		t.count++;
 		i++;
 	}
+
 	return (f);
 }
 int		printstr(const char *s, int i, t_conv *t)

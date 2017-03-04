@@ -33,16 +33,17 @@ void	fill_space(t_conv *t, t_flags f)
 	{
 		if (f.dot > t->len_d && ((f.pad - f.dot) > 0))
 			t->len_space = ((f.pad - f.dot) - ft_strlen(t->sign));
-		else if (f.pad == f.dot)
-			t->space = t->space;
-		else
+		else if (f.pad != f.dot)
 		{
 			if (f.dot >= (int)ft_strlen(t->nb))
 				t->len_space = (f.pad - (f.dot + ft_strlen(t->sign)));
 			else if (f.pad >= t->len_d)
 				t->len_space = (f.pad - t->len_d);
+			// printf("[%d]", t->len_space);
 		}
 	}
+	// printf("Dot[%d] && len_d [%d]", f.dot, t->len_d);
+	// if (f.dot > t->len_d)
 	t->space = ft_strset(' ', t->len_space);
 }
 
