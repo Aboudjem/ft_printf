@@ -6,7 +6,7 @@
 /*   By: aboudjem <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/04 08:50:39 by aboudjem          #+#    #+#             */
-/*   Updated: 2017/02/23 03:44:58 by plisieck         ###   ########.fr       */
+/*   Updated: 2017/03/04 07:57:18 by aboudjem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ void	s_fill_nodot(t_conv *t, t_flags f)
 	int len;
 
 	len = (int)ft_strlen(t->str);
-
-	if (len == 0 && t->conv != 's')// && f.pad == 0)// && t->conv != 'c')
+	if (len == 0 && t->conv != 's')
 		len++;
 	if (f.pre == 0 || t->conv == 'c' || t->conv == 's')
 	{
@@ -91,11 +90,11 @@ void	s_join(t_conv *t, t_flags f)
 {
 	int i;
 
-if (f.pre == 1 && f.dot == 0)
-{	
-	t->str = (f.zero == 1) ? ft_strdup("0") : ft_strdup(" ");
-	f.pre = 0;
-}
+	if (f.pre == 1 && f.dot == 0)
+	{
+		t->str = (f.zero == 1) ? ft_strdup("0") : ft_strdup(" ");
+		f.pre = 0;
+	}
 	if (t->conv == 'S')
 		i = s_pre(t, f);
 	else

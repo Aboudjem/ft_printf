@@ -6,7 +6,7 @@
 /*   By: aboudjem <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/04 08:50:39 by aboudjem          #+#    #+#             */
-/*   Updated: 2017/02/23 09:53:49 by aboudjem         ###   ########.fr       */
+/*   Updated: 2017/03/04 07:52:46 by aboudjem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,8 @@ void	x_fill_nodot(t_conv *t, t_flags f)
 			t->space = ft_strset(' ', f.pad - t->len_d);
 		else if (f.zero == 1 && f.pad > t->len_d)
 			t->space = ft_strset(' ', f.pad - t->len_d);
-	
 	}
 }
-
 
 void	conv_x(t_conv *t, t_flags f)
 {
@@ -69,4 +67,3 @@ void	conv_o(t_conv *t, t_flags f)
 	join(t, f);
 	t->len_return = (int)ft_strlen(t->str);
 }
-

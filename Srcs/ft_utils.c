@@ -82,24 +82,24 @@ int		ft_len_int(int nbr)
 }
 
 void	init_flags(t_flags *f)
-{
-	f->pre = 0;
-	f->champs = 0;
-	f->space = 0;
-	f->zero = 0;
-	f->neg = 0;
-	f->plus = 0;
-	f->prcnt = 0;
-	f->hash = 0;
-	f->dot = 0;
-	f->ll = 0;
-	f->l = 0;
-	f->h = 0;
-	f->hh = 0;
-	f->j = 0;
-	f->z = 0;
-	f->negdot = 0;
-	f->pad = 0;
+{	
 	f->u_used = 0;
 	f->d_used = 0;
+	f->champs = 0;
+	f->negdot = 0;
+	f->space = 0;
+	f->prcnt = 0;
+	f->zero = 0;
+	f->hash = 0;
+	f->plus = 0;
+	f->pad = 0;
+	f->neg = 0;
+	f->dot = 0;
+	f->pre = 0;
+	f->hh = 0;
+	f->ll = 0;
+	f->j = 0;
+	f->z = 0;
+	f->l = 0;
+	f->h = 0;
 }

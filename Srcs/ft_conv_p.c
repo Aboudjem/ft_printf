@@ -6,7 +6,7 @@
 /*   By: aboudjem <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/04 08:50:39 by aboudjem          #+#    #+#             */
-/*   Updated: 2017/02/23 09:45:22 by aboudjem         ###   ########.fr       */
+/*   Updated: 2017/03/04 07:48:56 by aboudjem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@ void	p_fill_zero(t_conv *t, t_flags f)
 
 void	p_fill_space(t_conv *t, t_flags f)
 {
+	int len;
+
+	len = ((int)ft_strlen(t->str) + (int)ft_strlen(t->sign));
 	if (f.pad > (int)ft_strlen(t->str))
-		t->len_space = f.pad - ((int)ft_strlen(t->str) + (int)ft_strlen(t->sign));
+		t->len_space = f.pad - len;
 	else
 		t->len_space = 0;
 	t->space = ft_strset(' ', t->len_space);
@@ -83,9 +86,8 @@ void	ft_hexa_p(t_conv *t)
 void	conv_p(t_conv *t, t_flags f)
 {
 	ft_hexa_p(t);
-	if (t->p == 0 && (f.pre == 1 &&  f.dot == 0))
+	if (t->p == 0 && (f.pre == 1 && f.dot == 0))
 		t->str = ft_strdup("");
-
 	t->sign = ft_strdup("0x");
 	if (f.pre == 1 && f.pad == 0 && t->u == 0 && f.dot == 0)
 		t->str = ft_strdup(t->sign);

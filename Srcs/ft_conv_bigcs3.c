@@ -38,11 +38,7 @@ void	conv_wc(unsigned long int c, t_conv *t)
 {
 	how_long(c, t);
 	if (c == 0)
-	{
-		// ft_putchar('\0');
-		// ft_bzero(t->print, 1);
 		t->len_return = 1;
-	}
 	else
 		t->len_return = len_c(c);
 }

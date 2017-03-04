@@ -23,9 +23,7 @@ void	get_padding(const char *s, int i, t_flags *f)
 	{
 		j++;
 		i++;
-
 	}
-
 	f->zero = (s[i] == '0') ? 1 : f->zero;
 	f->pad = ft_atoi(s + i);
 	while (ft_isdigit(s[i]) == 1)
@@ -34,7 +32,6 @@ void	get_padding(const char *s, int i, t_flags *f)
 		i++;
 	}
 	f->plus = (s[i] == '+') ? 1 : f->plus;
-	
 	f->neg = (s[i] == '-') ? 1 : f->neg;
 	f->len_pad = j;
 }
