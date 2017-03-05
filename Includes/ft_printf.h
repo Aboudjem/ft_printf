@@ -40,6 +40,8 @@ typedef struct	s_type
 	char					conv;
 	char					*str;
 	char					*print;
+	int						i;
+	int						j;
 }				t_conv;
 
 typedef struct	s_flags
@@ -67,6 +69,7 @@ typedef struct	s_flags
 	int d_used;
 }				t_flags;
 
+void			init_start(t_conv *t);
 int				ft_wstrcmp(const wchar_t *s1, const wchar_t *s2);
 void			no_conv(const char *s, int i, t_conv *t, t_flags f);
 int				count_char(const char *s, int i);
@@ -77,7 +80,11 @@ int				is_flag(const char *s, int i);
 /*
  ** ft_printf.c
 */
+void	get_conv(const char *s, int i, t_conv *t, t_flags f);
+void	modif_length(t_flags *f, t_conv *t);
+
 void			get_length_o(t_flags f, t_conv *t);
+void	join_neg(t_conv *t, t_flags f);
 
 int				ft_printf(const char *format, ...);
 void			get_padding(const char *s, int i, t_flags *f);
@@ -86,9 +93,9 @@ char			next_conv(const char *s, int i);
 void			len_return(t_conv *t, t_flags f);
 void			print_type(t_conv t, t_flags f, const char *s, int i);
 void			get_length(t_flags *f, t_conv *t);
-t_conv			which_conv(const char *s, int i, t_conv t, t_flags f);
-t_flags			which_length(const char *s, int i, t_flags f);
-t_flags			which_flags(const char *s, int i, t_conv t);
+void			which_conv(const char *s, int i, t_conv *t, t_flags f);
+void			which_length(const char *s, int i, t_flags *f);
+void			which_flags(const char *s, int i, t_conv t, t_flags *f);
 void			get_length_u(t_flags *f, t_conv *t);
 /*
  ** ft_conv_c.c
@@ -133,14 +140,17 @@ void			three_bytes(unsigned long int c, t_conv *t);
 void			four_bytes(unsigned long int c, t_conv *t);
 void			how_long(unsigned long int c, t_conv *t);
 void			how_long2(unsigned long int c, t_conv *t);
-int				len_c(unsigned int c);
+int				len_wc(unsigned int c);
 void			conv_wc(unsigned long int c, t_conv *t);
 void			conv_ws(t_conv *t, t_flags f);
 void			s_join(t_conv *t, t_flags f);
 void			s_fill_zero(t_conv *t, t_flags f);
 void			s_fill_space(t_conv *t, t_flags f);
+void			p_fill_zero(t_conv *t, t_flags f);
+void			p_fill_space(t_conv *t, t_flags f);
 void			s_fill_nodot(t_conv *t, t_flags f);
-void			s_fill_nodot2(t_conv *t);
+void			p_fill_nodot(t_conv *t, t_flags f);
+void			s_nodot_join(t_conv *t, t_flags f);
 int				s_pre(t_conv *t, t_flags f);
 
 /*
@@ -169,6 +179,7 @@ void			conv_s(t_conv *t, t_flags f);
 void			join(t_conv *t, t_flags f);
 void			init(t_conv *t);
 void			fill_nodot(t_conv *t, t_flags f);
+void			x_fill_nodot(t_conv *t, t_flags f);
 void			fill_space(t_conv *t, t_flags f);
 void			fill_zero(t_conv *t, t_flags f);
 #endif

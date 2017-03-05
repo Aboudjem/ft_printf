@@ -12,24 +12,6 @@
 
 #include "ft_printf.h"
 
-void	x_fill_nodot(t_conv *t, t_flags f)
-{
-	if (f.pre == 0 && f.neg == 0)
-	{
-		if (f.zero == 0 && f.pad > t->len_d)
-			t->space = ft_strset(' ', f.pad - t->len_d);
-		else if (f.zero == 1 && f.pad > t->len_d)
-			t->zero = ft_strset('0', f.pad - t->len_d);
-	}
-	else if (f.pre == 0 && f.neg == 1)
-	{
-		if (f.zero == 0 && f.pad > t->len_d)
-			t->space = ft_strset(' ', f.pad - t->len_d);
-		else if (f.zero == 1 && f.pad > t->len_d)
-			t->space = ft_strset(' ', f.pad - t->len_d);
-	}
-}
-
 void	conv_x(t_conv *t, t_flags f)
 {
 	init(t);

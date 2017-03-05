@@ -103,3 +103,10 @@ void	ft_hashtag(t_conv *t, t_flags f)
 		t->len_d += (int)ft_strlen(t->sign);
 	}
 }
+
+void	init_start(t_conv *t)
+{
+	t->i = 0;
+	t->j = 0;
+	t->print = ft_strdup("");
+}
