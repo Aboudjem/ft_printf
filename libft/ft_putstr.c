@@ -6,7 +6,7 @@
 /*   By: aboudjem <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/29 16:19:18 by aboudjem          #+#    #+#             */
-/*   Updated: 2016/10/21 12:13:14 by aboudjem         ###   ########.fr       */
+/*   Updated: 2017/03/06 09:55:14 by aboudjem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 void	ft_putstr(char const *s)
 {
-write(1, s, ((int)ft_strlen(s)));
+	write(1, s, ((int)ft_strlen(s)));
 }

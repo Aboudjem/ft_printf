@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_conv_uoxX.c                                     :+:      :+:    :+:   */
+/*   fill_nodot.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aboudjem <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/04 08:50:39 by aboudjem          #+#    #+#             */
-/*   Updated: 2017/03/04 07:52:46 by aboudjem         ###   ########.fr       */
+/*   Created: 2017/03/06 09:35:36 by aboudjem          #+#    #+#             */
+/*   Updated: 2017/03/06 09:35:49 by aboudjem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
 
 void	s_fill_nodot(t_conv *t, t_flags f)
 {
@@ -27,7 +26,6 @@ void	s_fill_nodot(t_conv *t, t_flags f)
 		else if (f.zero == 1 && f.pad > len)
 			t->zero = ft_strset('0', f.pad - len);
 	}
-
 	s_nodot_join(t, f);
 }
 
@@ -84,4 +82,15 @@ void	p_fill_nodot(t_conv *t, t_flags f)
 		t->str = ft_strjoin(t->str, t->space);
 	else
 		t->str = ft_strjoin(t->space, t->str);
+}
+
+void	fill_nodot(t_conv *t, t_flags f)
+{
+	if (f.pre == 0)
+	{
+		if (f.zero == 0 && f.pad > t->len_d)
+			t->space = ft_strset(' ', f.pad - t->len_d);
+		else if (f.zero == 1 && f.pad > t->len_d)
+			t->zero = ft_strset('0', f.pad - t->len_d);
+	}
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_join.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aboudjem <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/03/06 09:28:35 by aboudjem          #+#    #+#             */
+/*   Updated: 2017/03/06 09:29:06 by aboudjem         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 void	s_join(t_conv *t, t_flags f)
@@ -32,7 +44,7 @@ void	join(t_conv *t, t_flags f)
 	char *s;
 
 	if (((t->d == 0 && f.d_used == 1) ||
-		(t->u == 0 && f.u_used == 1)) && f.pre == 1)
+				(t->u == 0 && f.u_used == 1)) && f.pre == 1)
 		t->str = handle_zero(*t, f);
 	else
 	{
@@ -55,7 +67,7 @@ void	join_neg(t_conv *t, t_flags f)
 	{
 		if (ft_strlen(t->zero) > 0)
 			t->space = ft_strset(' ',
-				(ft_strlen(t->zero)) - ft_strlen(t->sign));
+					(ft_strlen(t->zero)) - ft_strlen(t->sign));
 		else if (f.dot != 0)
 			t->space = ft_strdup("");
 		s = ft_strjoin(t->sign, t->nb);
@@ -71,7 +83,6 @@ void	join_neg(t_conv *t, t_flags f)
 
 void	p_join(t_conv *t, t_flags f)
 {
-	
 	p_fill_space(t, f);
 	p_fill_zero(t, f);
 	t->str = ft_strjoin(t->zero, t->str);

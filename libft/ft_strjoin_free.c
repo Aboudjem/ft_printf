@@ -6,11 +6,24 @@
 /*   By: aboudjem <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/06 22:31:25 by aboudjem          #+#    #+#             */
-/*   Updated: 2016/10/30 01:31:43 by aboudjem         ###   ########.fr       */
+/*   Updated: 2017/03/06 09:52:37 by aboudjem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+void	freestr(char **s1, char **s2, int nb)
+{
+	if (nb == 1)
+		ft_strdel(s1);
+	else if (nb == 2)
+		ft_strdel(s2);
+	else if (nb == 3)
+	{
+		ft_strdel(s1);
+		ft_strdel(s2);
+	}
+}
 
 char	*ft_strjoin_free(char **s1, char **s2, int nb)
 {
@@ -35,15 +48,6 @@ char	*ft_strjoin_free(char **s1, char **s2, int nb)
 	while ((*s2)[j] != '\0')
 		str[i++] = (*s2)[j++];
 	str[i] = '\0';
-	if (nb == 1)
-		ft_strdel(s1);
-	else if (nb == 2)
-		ft_strdel(s2);
-	else if (nb == 3)
-	{
-		ft_strdel(s1);
-		ft_strdel(s2);
-	}
-	(void)nb;
+	freestr(s1, s2, nb);
 	return (str);
 }

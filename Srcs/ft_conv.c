@@ -3,25 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_conv.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboudjem <aboudjem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aboudjem <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/15 06:39:58 by aboudjem          #+#    #+#             */
-/*   Updated: 2017/03/04 06:59:36 by aboudjem         ###   ########.fr       */
+/*   Created: 2017/03/06 09:34:40 by aboudjem          #+#    #+#             */
+/*   Updated: 2017/03/06 11:16:28 by aboudjem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-void	fill_nodot(t_conv *t, t_flags f)
-{
-	if (f.pre == 0)
-	{
-		if (f.zero == 0 && f.pad > t->len_d)
-			t->space = ft_strset(' ', f.pad - t->len_d);
-		else if (f.zero == 1 && f.pad > t->len_d)
-			t->zero = ft_strset('0', f.pad - t->len_d);
-	}
-}
 
 void	fill_space(t_conv *t, t_flags f)
 {
@@ -74,6 +63,3 @@ char	*handle_zero(t_conv t, t_flags f)
 	}
 	return (t.nb);
 }
-
-
-

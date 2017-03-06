@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_conv_unicode.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aboudjem <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/03/06 09:29:41 by aboudjem          #+#    #+#             */
+/*   Updated: 2017/03/06 12:57:17 by aboudjem         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ft_printf.h"
 
@@ -42,7 +52,8 @@ void	conv_ws(t_conv *t, t_flags f)
 		while (t->w[i] != '\0')
 		{
 			conv_wc(t->w[i], t);
-			tmp = ft_strjoin_free(&tmp, &t->str, 0);
+			if (t->ret != -1)
+				tmp = ft_strjoin_free(&tmp, &t->str, 0);
 			i++;
 		}
 		t->str = ft_strdup(tmp);
@@ -61,36 +72,6 @@ int		s_pre(t_conv *t, t_flags f)
 	return (i);
 }
 
-void	one_bytes(unsigned long int c, t_conv *t)
-{
-	t->str = ft_strnew(1);
-	t->str[0] = c;
-}
-
-void	two_bytes(unsigned long int c, t_conv *t)
-{
-	t->str = ft_strnew(2);
-	t->str[0] = (192 | (c >> 6));
-	t->str[1] = (128 | (c & 63));
-}
-
-void	three_bytes(unsigned long int c, t_conv *t)
-{
-	t->str = ft_strnew(3);
-	t->str[0] = (224 | (c >> 12));
-	t->str[1] = (128 | ((c >> 6) & 63));
-	t->str[2] = (128 | (c & 63));
-}
-
-void	four_bytes(unsigned long int c, t_conv *t)
-{
-	t->str = ft_strnew(4);
-	t->str[0] = (240 | (c >> 18));
-	t->str[1] = (128 | ((c >> 12) & 63));
-	t->str[2] = (128 | ((c >> 6) & 63));
-	t->str[3] = (128 | (c & 63));
-}
-
 void	how_long(unsigned long int c, t_conv *t)
 {
 	if (c == 0)
@@ -98,16 +79,16 @@ void	how_long(unsigned long int c, t_conv *t)
 		write(1, t->print, ft_strlen(t->print) + 1);
 		t->print = ft_strnew(1);
 	}
-	else if (MB_CUR_MAX == 1)
+	else if (MB_CUR_MAX == 1 && c <= 127)
 		one_bytes(c, t);
-	else if (MB_CUR_MAX == 2)
+	else if (MB_CUR_MAX == 2 && c < 2048)
 	{
 		if (c < 128 && c > 0)
 			one_bytes(c, t);
 		else if (c < 2048)
 			two_bytes(c, t);
 	}
-	else if (MB_CUR_MAX == 3)
+	else if (MB_CUR_MAX == 3 && c < 65536)
 	{
 		if (c < 128 && c > 0)
 			one_bytes(c, t);
@@ -116,18 +97,8 @@ void	how_long(unsigned long int c, t_conv *t)
 		else if (c < 65536)
 			three_bytes(c, t);
 	}
-	else if (MB_CUR_MAX == 4)
+	else if (MB_CUR_MAX == 4 && c < 1114112)
 		how_long2(c, t);
-}
-
-void	how_long2(unsigned long int c, t_conv *t)
-{
-	if (c < 128 && c > 0)
-		one_bytes(c, t);
-	else if (c < 2048)
-		two_bytes(c, t);
-	else if (c < 65536)
-		three_bytes(c, t);
-	else if (c < 1114112)
-		four_bytes(c, t);
+	else
+		t->ret = -1;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboudjem <aboudjem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aboudjem <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/15 06:05:04 by aboudjem          #+#    #+#             */
-/*   Updated: 2017/02/23 03:15:19 by plisieck         ###   ########.fr       */
+/*   Created: 2017/03/06 09:20:50 by aboudjem          #+#    #+#             */
+/*   Updated: 2017/03/06 09:21:09 by aboudjem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int		ft_len_int(int nbr)
 }
 
 void	init_flags(t_flags *f)
-{	
+{
 	f->u_used = 0;
 	f->d_used = 0;
 	f->champs = 0;
