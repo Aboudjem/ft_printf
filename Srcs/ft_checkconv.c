@@ -6,7 +6,7 @@
 /*   By: aboudjem <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 11:18:03 by aboudjem          #+#    #+#             */
-/*   Updated: 2017/03/06 12:22:49 by aboudjem         ###   ########.fr       */
+/*   Updated: 2017/03/09 00:37:06 by aboudjem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	which_flags(const char *s, int i, t_conv t, t_flags *f)
 	init_flags(f);
 	t.count = 0;
 	i++;
-	while (is_flag(s, i) == 1 && s[i] != '\0')
+	while (is_flag(s, i) == 1 && s[i] != '\0' && i < (int)ft_strlen(s))
 	{
 		f->space = (s[i] == ' ') ? 1 : f->space;
 		f->neg = (s[i] == '-') ? 1 : f->neg;

@@ -6,7 +6,7 @@
 #    By: aboudjem <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/06 05:24:16 by aboudjem          #+#    #+#              #
-#    Updated: 2017/02/13 07:01:41 by aboudjem         ###   ########.fr        #
+#    Updated: 2017/03/09 00:15:53 by aboudjem         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME = libftprintf.a
 
 #	GCC flags
 CFLAGS = -Werror
-ALL_CFLAGS = -Wall -Wextra -g $(CFLAGS)
+ALL_CFLAGS = -Wall -Wextra $(CFLAGS)
 
 #	Ojects/Sources directories
 INC_LIBFT = includes/

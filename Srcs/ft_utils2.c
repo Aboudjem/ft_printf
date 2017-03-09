@@ -6,7 +6,7 @@
 /*   By: aboudjem <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 09:19:56 by aboudjem          #+#    #+#             */
-/*   Updated: 2017/03/06 09:20:10 by aboudjem         ###   ########.fr       */
+/*   Updated: 2017/03/09 00:35:34 by aboudjem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	next_conv(const char *s, int i)
 	char	*conv;
 
 	j = 0;
-	conv = "sSpdDioOuUxXcC%";
+	conv = "qbsSpdDioOuUxXcC%";
 	while (conv[j] != '\0')
 	{
 		if (s[i] == conv[j])

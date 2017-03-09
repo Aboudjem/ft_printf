@@ -6,7 +6,7 @@
 /*   By: aboudjem <aboudjem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/11 18:57:42 by aboudjem          #+#    #+#             */
-/*   Updated: 2017/03/06 12:57:27 by aboudjem         ###   ########.fr       */
+/*   Updated: 2017/03/09 00:36:24 by aboudjem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	len_return(t_conv *t, t_flags f)
 		conv_p(t, f);
 	else if (t->conv == 'd' || t->conv == 'i')
 		conv_d(t, f);
+	else if (t->conv == 'b' || t->conv == 'q')
+		conv_b(t, f);
 	else
 		len_return2(t, f);
 	if (t->str && t->str != NULL)
@@ -63,7 +65,7 @@ void	get_conv(const char *s, int i, t_conv *t, t_flags f)
 			t->p = (void *)va_arg(t->arguments, void *);
 		else if (t->conv == 'd' || t->conv == 'i')
 			get_length(&f, t);
-		else if (t->conv == 'u')
+		else if (t->conv == 'u' || t->conv == 'b' || t->conv == 'q')
 			get_length_u(&f, t);
 		else if (t->conv == 'c' || t->conv == 'C')
 			t->c = (unsigned long int)va_arg(t->arguments, unsigned long int);

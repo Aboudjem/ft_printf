@@ -6,7 +6,7 @@
 /*   By: aboudjem <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 09:29:41 by aboudjem          #+#    #+#             */
-/*   Updated: 2017/03/06 12:57:17 by aboudjem         ###   ########.fr       */
+/*   Updated: 2017/03/08 23:06:20 by aboudjem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,14 +89,7 @@ void	how_long(unsigned long int c, t_conv *t)
 			two_bytes(c, t);
 	}
 	else if (MB_CUR_MAX == 3 && c < 65536)
-	{
-		if (c < 128 && c > 0)
-			one_bytes(c, t);
-		else if (c < 2048)
-			two_bytes(c, t);
-		else if (c < 65536)
-			three_bytes(c, t);
-	}
+		how_long3(c, t);
 	else if (MB_CUR_MAX == 4 && c < 1114112)
 		how_long2(c, t);
 	else

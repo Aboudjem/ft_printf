@@ -6,7 +6,7 @@
 /*   By: aboudjem <aboudjem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/11 23:12:24 by aboudjem          #+#    #+#             */
-/*   Updated: 2017/03/06 13:41:13 by aboudjem         ###   ########.fr       */
+/*   Updated: 2017/03/08 23:58:53 by aboudjem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,16 +175,6 @@ char			*ft_litoa(unsigned long long int n);
 void			*ft_strset(int c, size_t len);
 void			init_flags(t_flags *f);
 int				ft_len_int(int nbr);
-void			display(t_flags f);
-
-/*
- ** ft_utils2.c
-*/
-void			ft_hexa(t_conv *t);
-void			ft_octal(t_conv *t);
-void			init_start(t_conv *t);
-char			*revert_str(char *str, int i);
-void			ft_hashtag(t_conv *t, t_flags f);
 
 /*
  ** ft_utils2.c
@@ -195,6 +185,21 @@ int				is_flag(const char *s, int i);
 char			next_conv(const char *s, int i);
 void			init(t_conv *t);
 
+/*
+ ** ft_utils3.c
+*/
+void			ft_hexa(t_conv *t);
+void			ft_octal(t_conv *t);
+void			init_start(t_conv *t);
+char			*revert_str(char *str, int i);
+void			ft_hashtag(t_conv *t, t_flags f);
+
+/*
+ ** ft_utils4.c
+*/
+void			ft_quintal(t_conv *t);
+void			ft_binary(t_conv *t);
+void			how_long3(unsigned long int c, t_conv *t);
 /*
  ** ft_conv_d.c
 */
@@ -207,6 +212,7 @@ void			nb_sign(t_conv *t, t_flags f);
 */
 void			conv_x(t_conv *t, t_flags f);
 void			conv_o(t_conv *t, t_flags f);
+void			conv_b(t_conv *t, t_flags f);
 
 /*
  ** ft_conv_c.c
